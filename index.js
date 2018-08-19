@@ -1,3 +1,5 @@
+require('kontra')
+
 kontra.init();
 
 let sprite = kontra.sprite({
