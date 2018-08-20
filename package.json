@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "git@github.com:alanpreed/js13k_2018.git",
-  "author": "Mike Smith <mikerhyssmith@googlemail.com>",
+  "author": "Alan Reed & Mike Smith",
   "license": "MIT",
   "scripts": {
     "start": "webpack-serve"
