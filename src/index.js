@@ -1,21 +1,17 @@
 require('kontra');
-import { Packet } from './packet';
+import { Packet, generatePacket } from './packet';
 
 kontra.init();
 
-let packet = new Packet(10, 10, 1);
+let packet = generatePacket();
 
-let loop = kontra.gameLoop({  // create the main game loop
-  update: function() {        // update the game state
+let loop = kontra.gameLoop({
+  update: function() {
     packet.update();
   },
-  render: function() {        // render the game state
+  render: function() {
     packet.render();
   }
 });
 
-function generatePackets() {
-  return Array(10).fill(new Packet(Math.random(10), Math.random(10)));
-}
-
-loop.start();    // start the game
+loop.start();

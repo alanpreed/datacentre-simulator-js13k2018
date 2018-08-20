@@ -1,13 +1,13 @@
 require('kontra');
 
 export class Packet {
-    constructor(x, y, speed, width = 10, height = 10, rotation = 0) {
+    constructor(x, y, speed, size) {
       this.sprite = kontra.sprite({
         x: x,
         y: y,
         color: 'red',
-        width: width,
-        height: height,
+        width: size,
+        height: size,
         dy: speed
       });
 
@@ -26,4 +26,12 @@ export class Packet {
     render(){
       this.sprite.render();
     };
+}
+
+function generatePackets() {
+  return Array(10).fill(new Packet(Math.random(10), Math.random(10)));
+}
+export function generatePacket() {
+  const packetWidth = 10;
+  return new Packet(Math.random() * kontra.canvas.width, -packetWidth, 1, packetWidth);
 }
