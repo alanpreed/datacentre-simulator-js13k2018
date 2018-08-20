@@ -10,11 +10,17 @@ export class Packet {
         height: height,
         dy: speed
       });
+
+      this.lost = false;
     };
 
     update(){
-      console.log("updated");
-      this.sprite.update();
+      if(this.sprite.y > kontra.canvas.height) {
+        this.lost = true;
+      }
+      else {
+        this.sprite.update();
+      }
     };
 
     render(){
