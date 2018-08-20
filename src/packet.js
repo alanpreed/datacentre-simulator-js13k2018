@@ -1,4 +1,4 @@
-import * as kontra from 'kontra';
+require('kontra');
 
 export class Packet {
     constructor(x, y, speed, width = 10, height = 10, rotation = 0) {

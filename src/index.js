@@ -1,4 +1,4 @@
-import * as kontra from 'kontra';
+require('kontra');
 import { Packet } from './packet';
 
 kontra.init();
@@ -12,7 +12,7 @@ let sprite = kontra.sprite({
   dx: 2          // move the sprite 2px to the right every frame
 });
 
-let packet = new Packet(10, 10, -1);
+let packet = new Packet(10, 10, 1);
 
 let loop = kontra.gameLoop({  // create the main game loop
   update: function() {        // update the game state
