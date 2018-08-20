@@ -1,6 +1,5 @@
 require('kontra');
 import { Packet, generatePacket, setupPackets } from './packet';
-import { generate } from 'rxjs';
 
 kontra.init();
 
