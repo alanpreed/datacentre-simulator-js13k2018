@@ -31,7 +31,17 @@ export class Packet {
 function generatePackets() {
   return Array(10).fill(new Packet(Math.random(10), Math.random(10)));
 }
+
 export function generatePacket() {
   const packetWidth = 10;
-  return new Packet(Math.random() * kontra.canvas.width, -packetWidth, 1, packetWidth);
+  return new Packet(Math.random() * kontra.canvas.width, -packetWidth, Math.random() + 0.1, packetWidth);
+}
+
+export function setupPackets(numPackets) {
+  const packets = [];
+
+  for(var i = 0; i < numPackets; i++) {
+    packets[i] = generatePacket();
+  }
+  return packets;
 }
