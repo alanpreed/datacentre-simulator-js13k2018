@@ -6,7 +6,6 @@ kontra.init();
 
 let packets = setupPackets(5);
 const connections = setupConnections();
-const connectionSprites = connections.map(connection => kontra.sprite(connection));
 
 let loop = kontra.gameLoop({
   update: function() {
@@ -19,10 +18,11 @@ let loop = kontra.gameLoop({
         packet.update();
       }
     })
+    connections.forEach(connection => connection.update());
   },
   render: function() {
     packets.forEach(packet => packet.render());
-    connectionSprites.forEach(connection => connection.render());
+    connections.forEach(connection => kontra.sprite(connection).render());
   }
 });
 
