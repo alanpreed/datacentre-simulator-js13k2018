@@ -8,7 +8,7 @@ let packets = setupPackets(5);
 
 let loop = kontra.gameLoop({
   update: function() {
-    packets.forEach(packet, index => {
+    packets.forEach((packet, index) => {
       if(packet.lost) {
         // this is a bit funky
         packets[index] = generatePacket();
