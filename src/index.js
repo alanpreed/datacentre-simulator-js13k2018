@@ -1,4 +1,4 @@
-require('kontra')
+import * as kontra from 'kontra';
 
 kontra.init();
 
