@@ -1,16 +1,14 @@
 require('kontra');
 
 export class Packet {
-    constructor(x, y, speed, size) {
+    constructor(x, y, speed, radius) {
       this.sprite = kontra.sprite({
         x: x,
         y: y,
         color: 'red',
-        width: size,
-        height: size,
         dy: speed
       });
-
+      this.radius = radius;
       this.lost = false;
     };
 
@@ -24,7 +22,10 @@ export class Packet {
     };
 
     render(){
-      this.sprite.render();
+      this.sprite.context.fillStyle = this.sprite.color;
+      this.sprite.context.beginPath();
+      this.sprite.context.arc(this.sprite.x, this.sprite.y, this.radius, 0, Math.PI*2);
+      this.sprite.context.fill();
     };
 }
 
