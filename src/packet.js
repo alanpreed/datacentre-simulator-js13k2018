@@ -1,32 +1,32 @@
 require('kontra');
 
 export class Packet {
-    constructor(x, y, speed, radius) {
-      this.sprite = kontra.sprite({
-        x: x,
-        y: y,
-        color: 'red',
-        dy: speed
-      });
-      this.radius = radius;
-      this.lost = false;
-    };
+  constructor(x, y, speed, radius) {
+    this.sprite = kontra.sprite({
+      x: x,
+      y: y,
+      color: 'red',
+      dy: speed
+    });
+    this.radius = radius;
+    this.lost = false;
+  };
 
-    update(){
-      if(this.sprite.y > kontra.canvas.height) {
-        this.lost = true;
-      }
-      else {
-        this.sprite.update();
-      }
-    };
+  update(){
+    if(this.sprite.y > kontra.canvas.height) {
+      this.lost = true;
+    }
+    else {
+      this.sprite.update();
+    }
+  };
 
-    render(){
-      this.sprite.context.fillStyle = this.sprite.color;
-      this.sprite.context.beginPath();
-      this.sprite.context.arc(this.sprite.x, this.sprite.y, this.radius, 0, Math.PI*2);
-      this.sprite.context.fill();
-    };
+  render(){
+    this.sprite.context.fillStyle = this.sprite.color;
+    this.sprite.context.beginPath();
+    this.sprite.context.arc(this.sprite.x, this.sprite.y, this.radius, 0, Math.PI*2);
+    this.sprite.context.fill();
+  };
 }
 
 function generatePackets() {
