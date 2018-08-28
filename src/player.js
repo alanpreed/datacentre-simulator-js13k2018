@@ -4,30 +4,40 @@ require("kontra");
 
 export class Player{
   constructor(){
-    this.rotation = 0;
-    //this.blocks = [];
+    const blockWidth = 5;
+    const blockHeight = 5;
 
     this.sprite = kontra.sprite({
       x: kontra.pointer.x,
       y: kontra.pointer.y,
-      width: 5,
-      height: 5,
+      width: blockWidth,
+      height: blockHeight,
+      rotation: 0.3,
       color: "blue",
       blocks: [],
       onDown: function() {
-        this.blocks.push(new Block(this.x, this.y, this.width, this.height, 0, 30));
-        //this.placeBlock(this.x, this.y, this.width, this.height, this.rotation, this.lifetime);
+        this.blocks.push(new Block(this.x, this.y, this.width, this.height, this.rotation, 60));
+        console.log("rotation: " + this.rotation);
       },
       onUp: function() {
       },
       onOver: function() {
-      }
+      },
+      onArrowDown: function(){
+        console.log("rotation: " + this.rotation);
+        this.rotation -= 10;
+        console.log(this.rotation);
+      },
+
+      onArrowUp: function(){
+        console.log("rotation: " + this.rotation);
+        this.rotation += 10;
+        console.log(this.rotation);
+      },
     });
     kontra.pointer.track(this.sprite);
-  }
-
-  placeBlock(x, y, width, height, rotation, lifetime){
-    this.blocks.push(new Block(this.x, this.y, this.width, this.height, 0, 30));
+    kontra.keys.bind('up', this.sprite.onArrowUp);
+    kontra.keys.bind('down', this.sprite.onArrowDown);
   }
 
   update(){
@@ -44,6 +54,15 @@ export class Player{
 
   render(){
     this.sprite.blocks.forEach(block => block.render());
-    this.sprite.render();
+
+    this.sprite.context.save();
+    
+    this.sprite.context.translate(this.sprite.x, this.sprite.y);
+    this.sprite.context.rotate(this.sprite.rotation);
+    this.sprite.context.fillStyle = this.sprite.color;
+    this.sprite.context.fillRect(0, 0, this.sprite.width, this.sprite.height);
+    
+    //this.sprite.render();
+    this.sprite.context.restore();
   }
 }
