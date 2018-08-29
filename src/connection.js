@@ -14,7 +14,6 @@ export class Connection {
   getCurrentColour() {
     for(let i = 1; i < this.gradient.length; i++) {
       if(this.connectionLife < (this.startLife/this.gradient.length) * i) {
-        console.log(i);
         return this.gradient[i];
       } 
     }

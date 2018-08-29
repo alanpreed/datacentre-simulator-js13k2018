@@ -4,15 +4,16 @@ require("kontra");
 
 export class Player{
   constructor(){
-    const blockWidth = 5;
+    const blockWidth = 30;
     const blockHeight = 5;
+    this.rotationStep = Math.PI / 4;
 
     this.sprite = kontra.sprite({
       x: kontra.pointer.x,
       y: kontra.pointer.y,
       width: blockWidth,
       height: blockHeight,
-      rotation: 0.7,
+      rotation: 0,
       color: "blue",
       blocks: [],
       onDown: function() {
@@ -23,17 +24,6 @@ export class Player{
       },
       onOver: function() {
       },
-      onArrowDown: function(){
-        console.log("rotation: " + this.rotation);
-        this.rotation -= 10;
-        console.log(this.rotation);
-      },
-
-      onArrowUp: function(){
-        console.log("rotation: " + this.rotation);
-        this.rotation += 10;
-        console.log(this.rotation);
-      },
       render: function(){
         this.context.save();
     
@@ -43,14 +33,24 @@ export class Player{
         this.context.fillRect(0, 0, this.width, this.height);
     
         this.context.restore();
+      },
+      handleMouseWheel: (e) => {
+        if(e.deltaY < 0) {
+          this.sprite.rotation -= this.rotationStep;
+        }
+        else if(e.deltaY > 0) {
+          this.sprite.rotation += this.rotationStep;
+        }
+        console.log(this.sprite.rotation);
       }
-
     });
 
     kontra.pointer.track(this.sprite);
     kontra.keys.bind('up', this.sprite.onArrowUp);
     kontra.keys.bind('down', this.sprite.onArrowDown);
+    document.addEventListener('wheel', this.sprite.handleMouseWheel);
   }
+
 
   update(){
     this.sprite.blocks.forEach(block => block.update());
