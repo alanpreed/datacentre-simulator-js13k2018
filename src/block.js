@@ -15,8 +15,9 @@ export class Block {
       this.context.fillRect(0, 0, this.width, this.height);
       this.context.restore();
     }
-    this.update = function() {
-      this.lifetime -= 1;
-    }
+  }
+
+  update(){
+    this.lifetime -= 1;
   }
 }

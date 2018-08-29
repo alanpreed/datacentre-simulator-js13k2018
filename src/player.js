@@ -53,7 +53,7 @@ export class Player{
   }
 
   update(){
-    this.sprite.blocks.forEach(block => kontra.sprite(block).update());
+    this.sprite.blocks.forEach(block => block.update());
     for(var i = 0; i < this.sprite.blocks.length; i++){
       if(this.sprite.blocks[i].lifetime == 0){
         this.sprite.blocks.splice(i, 1);
@@ -67,11 +67,5 @@ export class Player{
   render(){
     this.sprite.blocks.forEach(block => kontra.sprite(block).render());
     this.sprite.render();
-    // this.sprite.context.save();
-    // this.sprite.context.translate(this.sprite.x, this.sprite.y);
-    // this.sprite.context.rotate(this.sprite.rotation);
-    // this.sprite.context.fillStyle = this.sprite.color;
-    // this.sprite.context.fillRect(0, 0, this.sprite.width, this.sprite.height);
-    // this.sprite.context.restore();
   }
 }
