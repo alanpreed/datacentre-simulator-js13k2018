@@ -8,30 +8,13 @@ kontra.init();
 let packets = setupPackets(5);
 const connections = setupConnections();
 let blocks = [];
-let player = kontra.sprite({
-  x: kontra.pointer.x,
-  y: kontra.pointer.y,
-  width: 30,
-  height: 5,
-  rotation: 0,
-  rotationStep: Math.PI / 8,
-  color: "blue",
-  onDown: function() {
-    this.blocks.push(new Block(this.x, this.y, this.width, this.height, this.rotation, 60));
-  },
-  update: function(){
-    this.x = kontra.pointer.x;
-    this.y = kontra.pointer.y;
-  },
-  render: function(){
-    this.context.save();
-    this.context.translate(this.x, this.y);
-    this.context.rotate(this.rotation);
-    this.context.fillStyle = this.color;
-    this.context.fillRect(0, 0, this.width, this.height);
-    this.context.restore();
-  },
-});
+let player = kontra.sprite(new Block(kontra.pointer.x, kontra.pointer.y, 30, 5, 0));
+player.rotationStep = Math.PI / 8;
+player.color = "blue";
+player.update = function(){
+  this.x = kontra.pointer.x;
+  this.y = kontra.pointer.y;
+};
 
 // Input handling
 kontra.pointer.onDown(function(event, object) {
