@@ -10,7 +10,7 @@ export class Connection {
     this.requiredPackets = requiredPackets;
     this.startLife = connectionLife;
     this.isSuccesful = false;
-    this.gradient = ['#00E52D', '#02E701', '#32E902', '#63EC03', '#95EE05', 'C7F006', '#F3EC07', '#F5BE09', '#F78F0A', '#FA600C', '#FC310D', '#FF0F1B'];
+    this.gradient = ['#00E52D', '#02E701', '#32E902', '#63EC03', '#95EE05', '#C7F006', '#F3EC07', '#F5BE09', '#F78F0A', '#FA600C', '#FC310D', '#FF0F1B'];
     this.gradient.reverse();
   }
 
@@ -54,10 +54,14 @@ export function setupConnections() {
   return Array(5).fill(null).map(() => generateConnection());
 }
 
+function getConnectionLife() {
+  return Math.max(500, Math.round(Math.random() * 4000));
+}
+
 function createBottomConnection() {
-  return new Connection(Math.random() * kontra.canvas.width, kontra.canvas.height-50, 20, 30, 2000, 10);
+  return new Connection(Math.random() * kontra.canvas.width, kontra.canvas.height-50, 20, 30, getConnectionLife(), 10);
 }
 
 function createSideConnection() {
-  return new Connection(kontra.canvas.width - 50, Math.random() * kontra.canvas.height, 30, 20, 2000, 10);
+  return new Connection(kontra.canvas.width - 50, Math.random() * kontra.canvas.height, 30, 20, getConnectionLife(), 10);
 }
