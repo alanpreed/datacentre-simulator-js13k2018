@@ -21,6 +21,7 @@ let setupPackets = function(numPackets) {
 }
 
 let packets = setupPackets(5);
+let score = 0;
 const connections = setupConnections();
 let blocks = [];
 let player = kontra.sprite(new Block(kontra.pointer.x, kontra.pointer.y, 30, 5, 0));
@@ -65,6 +66,10 @@ let loop = kontra.gameLoop({
         connections.splice(index, 1) 
         connections.push(generateConnection());
       });
+    connections.forEach(connection => {
+      const numOfCollisions = connection.checkCollisions(packets);
+      score += numOfCollisions;
+    })
     
       blocks.forEach(block => block.update());
     for(var i = 0; i < blocks.length; i++){
@@ -79,6 +84,8 @@ let loop = kontra.gameLoop({
     connections.filter(connection => connection.shouldRender())
       .forEach(connection => kontra.sprite(connection).render());
     connections.forEach(connection => kontra.context.fillText(connection.connectionLife, connection.x, connection.y))
+    connections.forEach(connection => kontra.context.fillText(connection.requiredPackets, connection.x-5, connection.y-5));
+    kontra.context.fillText(`Score: ${score}`, kontra.canvas.width/2, 10);
     blocks.forEach(block => kontra.sprite(block).render());
     player.render();
   }

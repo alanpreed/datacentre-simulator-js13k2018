@@ -26,6 +26,33 @@ export class Connection {
   shouldRender() {
     return this.connectionDelay <= 0;
   }
+
+  checkCollisions(packets) {
+    // Credit: https://gist.github.com/vonWolfehaus/5023015
+    let collisions = 0;
+    packets.forEach(packet => {
+      const closestX = this.clamp(packet.x, this.x, this.x + this.width);
+      const closestY = this.clamp(packet.y, this.y, this.y + this.height);
+  
+      // Calculate the distance between the circle's center and this closest point
+      const distanceX = packet.x - closestX;
+      const distanceY = packet.y - closestY;
+  
+      // If the distance is less than the circle's radius, an intersection occurs
+      const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+      if(distanceSquared < (packet.radius * packet.radius)){
+        packet.lost=true;
+        collisions++;
+      }
+    })
+    this.requiredPackets -= collisions;
+    return collisions;
+
+  }
+
+  clamp(val, min, max) {
+    return Math.max(min, Math.min(max, val))
+  }
   
   isInactive() {
     return this.isLost || this.isSuccesful;
