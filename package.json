@@ -9,6 +9,7 @@
     "start": "webpack-serve"
   },
   "dependencies": {
+    "eslint": "^5.3.0",
     "kontra": "^4.0.1",
     "webpack": "^4.16.5",
     "webpack-serve": "^2.0.2"
