@@ -24,7 +24,7 @@ export class Connection {
   }
 
   shouldRender() {
-    return this.connectionDelay <= 0;
+    return this.connectionDelay <= 0 && !this.isInactive();
   }
 
   checkCollisions(packets) {

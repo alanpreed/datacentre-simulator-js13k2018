@@ -35,10 +35,11 @@ document.addEventListener('wheel', handleMouseWheel);
 
 let loop = kontra.gameLoop({
   update: function() {
-    packets.filter(packet => packet.lost)
-      .forEach((packet, index) => { 
-        packets.splice(index, 1);
-        packets.push(generatePacket());
+    packets.forEach((packet, index) => {
+        if(packet.lost) {
+          packets.splice(index, 1);
+          packets.push(generatePacket());
+        } 
       });
 
     packets.forEach(packet => {
@@ -47,10 +48,11 @@ let loop = kontra.gameLoop({
     })
 
     connections.forEach(connection => connection.update());
-    connections.filter(connection => connection.isInactive())
-      .forEach((connection, index) =>  {
-        connections.splice(index, 1) 
-        connections.push(generateConnection());
+    connections.forEach((connection, index) =>  {
+        if(connection.isLost) {
+          connections.splice(index, 1) 
+          connections.push(generateConnection());
+        }
       });
     connections.forEach(connection => {
       const numOfCollisions = connection.checkCollisions(packets);
@@ -58,9 +60,11 @@ let loop = kontra.gameLoop({
     });
     
     blocks.forEach(block => block.update());
-    blocks.filter(block => block.lifetime === 0)
-      .forEach((block, index) => { blocks.splice(index, 1)});
-    
+    blocks.forEach((block, index) => { 
+      if(block.lifetime === 0) {
+        blocks.splice(index, 1);
+      }
+    });
     pointer.update();
   },
   render: function() {
