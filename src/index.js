@@ -1,6 +1,6 @@
 require('kontra');
 import { Packet } from './packet';
-import { setupConnections } from './connection';
+import { setupConnections, generateConnection } from './connection';
 import { Block } from './block';
 
 kontra.init();
@@ -59,7 +59,13 @@ let loop = kontra.gameLoop({
       }
     })
     connections.forEach(connection => connection.update());
-    blocks.forEach(block => block.update());
+    connections.filter(connection => connection.isInactive())
+      .forEach((connection, index) =>  {
+        connections.splice(index, 1) 
+        connections.push(generateConnection());
+      });
+    
+      blocks.forEach(block => block.update());
     for(var i = 0; i < blocks.length; i++){
       if(blocks[i].lifetime == 0){
         blocks.splice(i, 1);
