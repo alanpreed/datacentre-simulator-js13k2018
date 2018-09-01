@@ -1,48 +1,33 @@
 require('kontra');
-import { Packet } from './packet';
+import { setupPackets, generatePacket } from './packet';
 import { setupConnections, generateConnection } from './connection';
 import { Block } from './block';
 
 kontra.init();
 
-
-let generatePacket = function() {
-  const packetWidth = 10;
-  return new Packet(Math.random() * kontra.canvas.width, -packetWidth, Math.random() + 0.1, packetWidth, kontra.canvas.width, kontra.canvas.height);
-}
-
-let setupPackets = function(numPackets) {
-  const packets = [];
-
-  for(var i = 0; i < numPackets; i++) {
-    packets[i] = generatePacket();
-  }
-  return packets;
-}
-
 let packets = setupPackets(5);
 let score = 0;
 const connections = setupConnections();
 let blocks = [];
-let player = kontra.sprite(new Block(kontra.pointer.x, kontra.pointer.y, 30, 5, 0));
-player.rotationStep = Math.PI / 8;
-player.color = "blue";
-player.update = function(){
+let pointer = kontra.sprite(new Block(kontra.pointer.x, kontra.pointer.y, 30, 5, 0));
+pointer.rotationStep = Math.PI / 8;
+pointer.color = "blue";
+pointer.update = function(){
   this.x = kontra.pointer.x;
   this.y = kontra.pointer.y;
 };
 
 // Input handling
 kontra.pointer.onDown(function(event, object) {
-  blocks.push(new Block(player.x, player.y, player.width, player.height, player.rotation, 200));
+  blocks.push(new Block(pointer.x, pointer.y, pointer.width, pointer.height, pointer.rotation, 200));
 });
 
 let handleMouseWheel = (e) => {
   if(e.deltaY < 0) {
-    player.rotation -= player.rotationStep;
+    pointer.rotation -= pointer.rotationStep;
   }
   else if(e.deltaY > 0) {
-    player.rotation += player.rotationStep;
+    pointer.rotation += pointer.rotationStep;
   }
 }
 
@@ -51,11 +36,14 @@ document.addEventListener('wheel', handleMouseWheel);
 let loop = kontra.gameLoop({
   update: function() {
     packets.filter(packet => packet.lost)
-      .forEach((packet, index) => { packets.splice(index, 1)});
+      .forEach((packet, index) => { 
+        packets.splice(index, 1);
+        packets.push(generatePacket());
+      });
 
     packets.forEach(packet => {
       packet.update();
-      packet.checkBlockCollisions();
+      packet.checkBlockCollisions(blocks);
     })
 
     connections.forEach(connection => connection.update());
@@ -73,7 +61,7 @@ let loop = kontra.gameLoop({
     blocks.filter(block => block.lifetime === 0)
       .forEach((block, index) => { blocks.splice(index, 1)});
     
-    player.update();
+    pointer.update();
   },
   render: function() {
     packets.forEach(packet => kontra.sprite(packet).render());
@@ -83,7 +71,7 @@ let loop = kontra.gameLoop({
     connections.forEach(connection => kontra.context.fillText(connection.requiredPackets, connection.x-5, connection.y-5));
     kontra.context.fillText(`Score: ${score}`, kontra.canvas.width/2, 10);
     blocks.forEach(block => kontra.sprite(block).render());
-    player.render();
+    pointer.render();
   }
 });
 

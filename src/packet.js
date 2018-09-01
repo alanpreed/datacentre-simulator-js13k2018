@@ -76,3 +76,18 @@ export class Packet {
     return [x,y, dist];
   }
 }
+
+
+export function generatePacket() {
+  const packetWidth = 10;
+  return new Packet(Math.random() * kontra.canvas.width, -packetWidth, Math.random() + 0.1, packetWidth, kontra.canvas.width, kontra.canvas.height);
+}
+
+export function setupPackets(numPackets) {
+  const packets = [];
+
+  for(var i = 0; i < numPackets; i++) {
+    packets[i] = generatePacket();
+  }
+  return packets;
+}
