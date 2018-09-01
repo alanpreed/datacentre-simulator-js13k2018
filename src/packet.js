@@ -8,6 +8,7 @@ export class Packet {
     this.canvasHeight = canvasHeight;
     this.radius = radius;
     this.lost = false;
+    this.stop = false;
 
     this.render = function(){
       this.context.fillStyle = this.color;
@@ -17,12 +18,56 @@ export class Packet {
     };
   };
 
+  checkBlockCollisions(blocks) {
+    blocks.forEach(block => {
+      let result = this.calculateClosestPoint(block);
+      if(result[2] < this.radius) {
+        this.stop = true;
+      }
+      else {
+        this.stop = false;
+      }
+    });
+
+  }
+
   update(){
     if(this.y > this.canvasHeight) {
       this.lost = true;
     }
     else {
-      this.y += this.dy;
+      if(!this.stop) {
+        this.y += this.dy;
+      }
     }
   };
+
+  calculateLineEquation(block) {
+    // From our position and rotation:
+    // y = (x - x0)tan(theta) + y0
+    // Require equation of the form ax + by + c = 0
+    // -xtan(theta) + y + x0tan(theta) - y0 = 0
+    let a = -Math.tan(block.rotation);
+    let b = 1;
+    let c = (block.x * Math.tan(block.rotation)) - block.y;
+    return [a, b, c];
+  }
+
+  calculateClosestPoint(block) {
+    // From Wikipedia (https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line):
+    // x = (b(b * x0 - a * y0) - ac)/(a^2 + b^2)
+    // y = (a(-b * x0 + a * y0) - bc)/(a^2 + b^2)
+
+    let coeffs = this.calculateLineEquation(block);
+    let a = coeffs[0];
+    let b = coeffs[1];
+    let c = coeffs[2];
+
+    let x = (b * (b * this.x - a * this.y) - (a * c)) / (Math.pow(a, 2) + Math.pow(b, 2));
+
+    let y = (a * (-b * this.x + a * this.y) - (b * c)) / (Math.pow(a, 2) + Math.pow(b, 2));
+
+    let dist = Math.abs((a * this.x) + (b * this.y) + c) / Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2))
+    return [x,y, dist];
+  }
 }

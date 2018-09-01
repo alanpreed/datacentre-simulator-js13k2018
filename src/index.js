@@ -20,7 +20,7 @@ let setupPackets = function(numPackets) {
   return packets;
 }
 
-let packets = setupPackets(5);
+let packets = setupPackets(1);
 const connections = setupConnections();
 let blocks = [];
 let player = kontra.sprite(new Block(kontra.pointer.x, kontra.pointer.y, 30, 5, 0));
@@ -56,6 +56,7 @@ let loop = kontra.gameLoop({
       }
       else {
         packet.update();
+        packet.checkBlockCollisions(blocks);
       }
     })
     connections.forEach(connection => connection.update());
