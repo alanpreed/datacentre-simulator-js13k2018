@@ -20,7 +20,7 @@ let setupPackets = function(numPackets) {
   return packets;
 }
 
-let packets = setupPackets(1);
+let packets = setupPackets(5);
 const connections = setupConnections();
 let blocks = [];
 let player = kontra.sprite(new Block(kontra.pointer.x, kontra.pointer.y, 30, 5, 0));
@@ -33,7 +33,7 @@ player.update = function(){
 
 // Input handling
 kontra.pointer.onDown(function(event, object) {
-  blocks.push(new Block(player.x, player.y, player.width, player.height, player.rotation, 60));
+  blocks.push(new Block(player.x, player.y, player.width, player.height, player.rotation, 200));
 });
 
 let handleMouseWheel = (e) => {

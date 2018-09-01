@@ -21,8 +21,13 @@ export class Packet {
   checkBlockCollisions(blocks) {
     blocks.forEach(block => {
       let result = this.calculateClosestPoint(block);
-      if(result[2] < this.radius) {
-        this.stop = true;
+      let xmax = (block.width / 2) * Math.cos(block.rotation);
+      let ymax = (block.width / 2) * Math.sin(block.rotation);
+      if((result[0] > block.x - xmax && result[0] < block.x + xmax) ||
+         (result[1] > block.y - ymax && result[1] < block.y + ymax)) {
+        if(result[2] < this.radius) {
+          this.stop = true;
+        }
       }
       else {
         this.stop = false;
