@@ -12,21 +12,21 @@ let blocks = [];
 let pointer = kontra.sprite(new Block(kontra.pointer.x, kontra.pointer.y, 30, 5, 0));
 pointer.rotationStep = Math.PI / 8;
 pointer.color = "blue";
-pointer.update = function(){
+pointer.update = function () {
   this.x = kontra.pointer.x;
   this.y = kontra.pointer.y;
 };
 
 // Input handling
-kontra.pointer.onDown(function(event, object) {
+kontra.pointer.onDown(function (event, object) {
   blocks.push(new Block(pointer.x, pointer.y, pointer.width, pointer.height, pointer.rotation, 200));
 });
 
 let handleMouseWheel = (e) => {
-  if(e.deltaY < 0) {
+  if (e.deltaY < 0) {
     pointer.rotation -= pointer.rotationStep;
   }
-  else if(e.deltaY > 0) {
+  else if (e.deltaY > 0) {
     pointer.rotation += pointer.rotationStep;
   }
 }
@@ -34,46 +34,44 @@ let handleMouseWheel = (e) => {
 document.addEventListener('wheel', handleMouseWheel);
 
 let loop = kontra.gameLoop({
-  update: function() {
+  update: function () {
     packets.forEach((packet, index) => {
-        if(packet.lost) {
-          packets.splice(index, 1);
-          packets.push(generatePacket());
-        } 
-      });
-
-    packets.forEach(packet => {
       packet.update();
       packet.checkBlockCollisions(blocks);
-    })
+      if (packet.lost) {
+        packets.splice(index, 1);
+        packets.push(generatePacket());
+      }
+    });
 
-    connections.forEach(connection => connection.update());
-    connections.forEach((connection, index) =>  {
-        if(connection.isLost) {
-          connections.splice(index, 1) 
-          connections.push(generateConnection());
-        }
-      });
-    connections.forEach(connection => {
+    connections.forEach((connection, index) => {
+      connection.update();
       const numOfCollisions = connection.checkCollisions(packets);
       score += numOfCollisions;
+
+      if (connection.isLost) {
+        connections.splice(index, 1)
+        connections.push(generateConnection());
+      }
     });
-    
-    blocks.forEach(block => block.update());
-    blocks.forEach((block, index) => { 
-      if(block.lifetime === 0) {
+
+    blocks.forEach((block, index) => {
+      block => block.update();
+      
+      if (block.lifetime === 0) {
         blocks.splice(index, 1);
       }
     });
+
     pointer.update();
   },
-  render: function() {
+  render: function () {
     packets.forEach(packet => kontra.sprite(packet).render());
     connections.filter(connection => connection.shouldRender())
       .forEach(connection => kontra.sprite(connection).render());
     connections.forEach(connection => kontra.context.fillText(connection.connectionLife, connection.x, connection.y))
-    connections.forEach(connection => kontra.context.fillText(connection.requiredPackets, connection.x-5, connection.y-5));
-    kontra.context.fillText(`Score: ${score}`, kontra.canvas.width/2, 10);
+    connections.forEach(connection => kontra.context.fillText(connection.requiredPackets, connection.x - 5, connection.y - 5));
+    kontra.context.fillText(`Score: ${score}`, kontra.canvas.width / 2, 10);
     blocks.forEach(block => kontra.sprite(block).render());
     pointer.render();
   }
