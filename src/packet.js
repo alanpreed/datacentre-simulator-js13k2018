@@ -1,48 +1,28 @@
-require('kontra');
-
 export class Packet {
-  constructor(x, y, speed, radius) {
-    this.sprite = kontra.sprite({
-      x: x,
-      y: y,
-      color: 'red',
-      dy: speed
-    });
+  constructor(x, y, speed, radius, canvasWidth, canvasHeight) {
+    this.x = x;
+    this.y = y;
+    this.color = 'red';
+    this.dy = speed;
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
     this.radius = radius;
     this.lost = false;
+
+    this.render = function(){
+      this.context.fillStyle = this.color;
+      this.context.beginPath();
+      this.context.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+      this.context.fill();
+    };
   };
 
   update(){
-    if(this.sprite.y > kontra.canvas.height) {
+    if(this.y > this.canvasHeight) {
       this.lost = true;
     }
     else {
-      this.sprite.update();
+      this.y += this.dy;
     }
   };
-
-  render(){
-    this.sprite.context.fillStyle = this.sprite.color;
-    this.sprite.context.beginPath();
-    this.sprite.context.arc(this.sprite.x, this.sprite.y, this.radius, 0, Math.PI*2);
-    this.sprite.context.fill();
-  };
-}
-
-function generatePackets() {
-  return Array(10).fill(new Packet(Math.random(10), Math.random(10)));
-}
-
-export function generatePacket() {
-  const packetWidth = 10;
-  return new Packet(Math.random() * kontra.canvas.width, -packetWidth, Math.random() + 0.1, packetWidth);
-}
-
-export function setupPackets(numPackets) {
-  const packets = [];
-
-  for(var i = 0; i < numPackets; i++) {
-    packets[i] = generatePacket();
-  }
-  return packets;
 }

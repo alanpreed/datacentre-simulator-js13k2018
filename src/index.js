@@ -1,9 +1,24 @@
 require('kontra');
-import { generatePacket, setupPackets } from './packet';
+import { Packet } from './packet';
 import { setupConnections } from './connection';
 import { Block } from './block';
 
 kontra.init();
+
+
+let generatePacket = function() {
+  const packetWidth = 10;
+  return new Packet(Math.random() * kontra.canvas.width, -packetWidth, Math.random() + 0.1, packetWidth);
+}
+
+let setupPackets = function(numPackets) {
+  const packets = [];
+
+  for(var i = 0; i < numPackets; i++) {
+    packets[i] = generatePacket();
+  }
+  return packets;
+}
 
 let packets = setupPackets(5);
 const connections = setupConnections();
@@ -53,7 +68,7 @@ let loop = kontra.gameLoop({
     player.update();
   },
   render: function() {
-    packets.forEach(packet => packet.render());
+    packets.forEach(packet => kontra.sprite(packet).render());
     connections.forEach(connection => kontra.sprite(connection).render());
     blocks.forEach(block => kontra.sprite(block).render());
     player.render();
