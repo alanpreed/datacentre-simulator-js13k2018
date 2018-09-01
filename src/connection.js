@@ -41,13 +41,13 @@ export class Connection {
       // If the distance is less than the circle's radius, an intersection occurs
       const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
       if(distanceSquared < (packet.radius * packet.radius)){
+        collisions ++;
         packet.lost=true;
-        collisions++;
+        this.requiredPackets--;
+        this.connectionLife += 50;
       }
     })
-    this.requiredPackets -= collisions;
     return collisions;
-
   }
 
   clamp(val, min, max) {

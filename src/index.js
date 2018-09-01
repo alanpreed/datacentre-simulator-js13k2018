@@ -71,13 +71,13 @@ let loop = kontra.gameLoop({
       score += numOfCollisions;
     })
     
-      blocks.forEach(block => block.update());
-    for(var i = 0; i < blocks.length; i++){
-      if(blocks[i].lifetime == 0){
-        blocks.splice(i, 1);
-      }
-    }
-    player.update();
+  
+    blocks.forEach(block => block.update());
+    blocks
+      .filter(block => block.lifetime ===0)
+      .forEach((block, index) => { blocks.splice(index, 1)});
+    
+      player.update();
   },
   render: function() {
     packets.forEach(packet => kontra.sprite(packet).render());
