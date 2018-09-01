@@ -8,7 +8,7 @@ kontra.init();
 
 let generatePacket = function() {
   const packetWidth = 10;
-  return new Packet(Math.random() * kontra.canvas.width, -packetWidth, Math.random() + 0.1, packetWidth);
+  return new Packet(Math.random() * kontra.canvas.width, -packetWidth, Math.random() + 0.1, packetWidth, kontra.canvas.width, kontra.canvas.height);
 }
 
 let setupPackets = function(numPackets) {
