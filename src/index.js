@@ -76,7 +76,9 @@ let loop = kontra.gameLoop({
   },
   render: function() {
     packets.forEach(packet => kontra.sprite(packet).render());
-    connections.forEach(connection => kontra.sprite(connection).render());
+    connections.filter(connection => connection.shouldRender())
+      .forEach(connection => kontra.sprite(connection).render());
+    connections.forEach(connection => kontra.context.fillText(connection.connectionLife, connection.x, connection.y))
     blocks.forEach(block => kontra.sprite(block).render());
     player.render();
   }

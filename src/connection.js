@@ -5,7 +5,7 @@ export class Connection {
     this.color = "#00E52D";
     this.width = width;
     this.height = height;
-    this.connectionDelay = Math.random() * 50;
+    this.connectionDelay = Math.random() * 250;
     this.connectionLife = connectionLife;
     this.requiredPackets = requiredPackets;
     this.startLife = connectionLife;
@@ -22,18 +22,21 @@ export class Connection {
     }
     return "#00E52D";
   }
+
+  shouldRender() {
+    return this.connectionDelay <= 0;
+  }
   
   isInactive() {
     return this.isLost || this.isSuccesful;
   }
 
   update() {
-    if(this.connectionDelay === 0 && this.connectionLife === 0 && this.requiredPackets > 0) {
+    if(this.connectionLife === 0 && this.requiredPackets > 0) {
       this.isLost = true;
     } else if(this.requiredPackets === 0) {
       this.isSuccesful = true;
-    }
-    if(this.connectionDelay > 0 ) {
+    } else if(this.connectionDelay > 0 ) {
       this.connectionDelay --;
     } else {
       this.connectionLife--;
@@ -52,9 +55,9 @@ export function setupConnections() {
 }
 
 function createBottomConnection() {
-  return new Connection(Math.random() * kontra.canvas.width, kontra.canvas.height-50, 20, 30, 10000, 10);
+  return new Connection(Math.random() * kontra.canvas.width, kontra.canvas.height-50, 20, 30, 2000, 10);
 }
 
 function createSideConnection() {
-  return new Connection(kontra.canvas.width - 50, Math.random() * kontra.canvas.height, 30, 20, 10000, 10);
+  return new Connection(kontra.canvas.width - 50, Math.random() * kontra.canvas.height, 30, 20, 2000, 10);
 }
