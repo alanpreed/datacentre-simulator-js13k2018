@@ -14,7 +14,7 @@ export class Block {
       this.context.fillStyle = this.color;
       this.context.fillRect(-this.width/2, -this.height/2, this.width, this.height);
       this.context.restore();
-    }
+    };
   }
   update(){
     this.lifetime -= 1;

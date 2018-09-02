@@ -3,6 +3,7 @@ export class Packet {
     this.x = x;
     this.y = y;
     this.color = 'red';
+    this.dx = 0;
     this.dy = speed;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
@@ -35,9 +36,11 @@ export class Packet {
   }
 
   update() {
-    if (this.y > this.canvasHeight) {
+    if (this.x < -this.radius || this.x > this.canvasWidth + this.radius ||
+        this.y < -this.radius || this.y > this.canvasHeight + this.radius) {
       this.lost = true;
     } else if (!this.stop) {
+      this.x += this.dx;
       this.y += this.dy;
     }
   }
