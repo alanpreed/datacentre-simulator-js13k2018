@@ -22,15 +22,20 @@ export class Packet {
   checkBlockCollisions(blocks) {
     blocks.forEach((block) => {
       const result = this.calculateClosestPoint(block);
-      const xmax = (block.width / 2) * Math.cos(block.rotation);
-      const ymax = (block.width / 2) * Math.sin(block.rotation);
-      //console.log('Min separation: ' + result[2]);
-      // if ((result[0] > block.x - xmax && result[0] < block.x + xmax)
-      //    || (result[1] > block.y - ymax && result[1] < block.y + ymax)) {
-      if (result[2] < this.radius) {
-        this.bounce(block);
+      const xlen = (block.width / 2) * Math.cos(block.rotation);
+      const ylen = (block.width / 2) * Math.sin(block.rotation);
+
+      let minXpos = block.x - xlen;
+      let minYpos = block.y - ylen;
+      let maxXpos = block.x + xlen;
+      let maxYpos = block.y + ylen;
+
+      if ((result[0] > Math.min(minXpos, maxXpos) && result[0] < Math.max(minXpos, maxXpos))
+        || (result[1] > Math.min(minYpos, maxYpos) && result[1] < Math.max(minYpos, maxYpos))) {
+        if (result[2] < this.radius) {
+          this.bounce(block);
+        }
       }
-      // }
     });
   }
 
@@ -95,7 +100,7 @@ export class Packet {
 
 export function generatePacket() {
   const packetWidth = 10;
-  return new Packet(Math.random() * kontra.canvas.width, -packetWidth, Math.random() + 0.2, packetWidth, kontra.canvas.width, kontra.canvas.height); // eslint-disable-line no-undef
+  return new Packet(Math.random() * kontra.canvas.width, -packetWidth, Math.random() + 0.5, packetWidth, kontra.canvas.width, kontra.canvas.height); // eslint-disable-line no-undef
 }
 
 export function setupPackets(numPackets) {
