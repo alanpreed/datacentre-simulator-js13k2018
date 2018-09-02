@@ -3,6 +3,7 @@ export class Packet {
     this.x = x;
     this.y = y;
     this.color = 'red';
+    this.dx = 0;
     this.dy = speed;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
@@ -26,18 +27,18 @@ export class Packet {
       if ((result[0] > block.x - xmax && result[0] < block.x + xmax)
          || (result[1] > block.y - ymax && result[1] < block.y + ymax)) {
         if (result[2] < this.radius) {
-          this.stop = true;
+          this.bounce(block);
         }
-      } else {
-        this.stop = false;
       }
     });
   }
 
   update() {
-    if (this.y > this.canvasHeight) {
+    if (this.x < -this.radius || this.x > this.canvasWidth + this.radius ||
+        this.y < -this.radius || this.y > this.canvasHeight + this.radius) {
       this.lost = true;
-    } else if (!this.stop) {
+    } else {
+      this.x += this.dx;
       this.y += this.dy;
     }
   }
@@ -69,6 +70,27 @@ export class Packet {
 
     const dist = Math.abs((a * this.x) + (b * this.y) + c) / Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
     return [x, y, dist];
+  }
+
+  bounce(block) {
+    let v = this.pythagoras(this.dx, this.dy);
+    let vAngle = Math.atan2(this.dy, this.dx);
+    let vPara = v * Math.sin(vAngle - block.rotation);
+    let vPerp = v * Math.cos(vAngle - block.rotation);
+    console.log('old v: ' + v + ' dx ' + this.dx + ' dy ' + this.dy + ' angle: ' + vAngle + ' parallel: ' + vPara + ' perp: ' + vPerp);
+    console.log(Math.atan2(0));
+    // Reflect the ball.  Can speed up or slow down here, too.
+    vPerp = vPerp * -block.restitution;
+
+    v = this.pythagoras(vPara, vPerp);
+    vAngle = Math.atan2(vPerp, vPara);
+    this.dx = v * Math.cos(vAngle + block.rotation);
+    this.dy = v * Math.sin(vAngle + block.rotation);
+    console.log('new v: ' + v + ' dx ' + this.dx + ' dy ' + this.dy + ' angle: ' + vAngle + ' parallel: ' + vPara + ' perp: ' + vPerp);
+  }
+
+  pythagoras(x, y) {
+    return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
   }
 }
 
