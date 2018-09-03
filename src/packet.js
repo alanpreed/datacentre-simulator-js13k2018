@@ -22,10 +22,16 @@ export class Packet {
   checkBlockCollisions(blocks) {
     blocks.forEach((block) => {
       const result = this.calculateClosestPoint(block);
-      const xmax = (block.width / 2) * Math.cos(block.rotation);
-      const ymax = (block.width / 2) * Math.sin(block.rotation);
-      if ((result[0] > block.x - xmax && result[0] < block.x + xmax)
-         || (result[1] > block.y - ymax && result[1] < block.y + ymax)) {
+      const xlen = (block.width / 2) * Math.cos(block.rotation);
+      const ylen = (block.width / 2) * Math.sin(block.rotation);
+
+      let minXpos = block.x - xlen;
+      let minYpos = block.y - ylen;
+      let maxXpos = block.x + xlen;
+      let maxYpos = block.y + ylen;
+
+      if ((result[0] > Math.min(minXpos, maxXpos) && result[0] < Math.max(minXpos, maxXpos))
+        || (result[1] > Math.min(minYpos, maxYpos) && result[1] < Math.max(minYpos, maxYpos))) {
         if (result[2] < this.radius) {
           this.bounce(block);
         }
@@ -74,19 +80,16 @@ export class Packet {
 
   bounce(block) {
     let v = this.pythagoras(this.dx, this.dy);
-    let vAngle = Math.atan2(this.dy, this.dx);
-    let vPara = v * Math.sin(vAngle - block.rotation);
-    let vPerp = v * Math.cos(vAngle - block.rotation);
-    console.log('old v: ' + v + ' dx ' + this.dx + ' dy ' + this.dy + ' angle: ' + vAngle + ' parallel: ' + vPara + ' perp: ' + vPerp);
-    console.log(Math.atan2(0));
-    // Reflect the ball.  Can speed up or slow down here, too.
+    let vAngle = Math.atan2(this.dx, this.dy);
+    let vPara = v * Math.sin(vAngle + block.rotation);
+    let vPerp = v * Math.cos(vAngle + block.rotation);
+
     vPerp = vPerp * -block.restitution;
 
     v = this.pythagoras(vPara, vPerp);
-    vAngle = Math.atan2(vPerp, vPara);
+    vAngle = Math.atan2(vPerp, vPara);    
     this.dx = v * Math.cos(vAngle + block.rotation);
     this.dy = v * Math.sin(vAngle + block.rotation);
-    console.log('new v: ' + v + ' dx ' + this.dx + ' dy ' + this.dy + ' angle: ' + vAngle + ' parallel: ' + vPara + ' perp: ' + vPerp);
   }
 
   pythagoras(x, y) {
@@ -97,7 +100,7 @@ export class Packet {
 
 export function generatePacket() {
   const packetWidth = 10;
-  return new Packet(Math.random() * kontra.canvas.width, -packetWidth, Math.random() + 0.1, packetWidth, kontra.canvas.width, kontra.canvas.height); // eslint-disable-line no-undef
+  return new Packet(Math.random() * kontra.canvas.width, -packetWidth, Math.random() + 0.5, packetWidth, kontra.canvas.width, kontra.canvas.height); // eslint-disable-line no-undef
 }
 
 export function setupPackets(numPackets) {
