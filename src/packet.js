@@ -100,7 +100,7 @@ export class Packet {
 
 export function generatePacket() {
   const packetWidth = 10;
-  return new Packet(Math.random() * kontra.canvas.width, -packetWidth, Math.random() + 0.5, packetWidth, kontra.canvas.width, kontra.canvas.height); // eslint-disable-line no-undef
+  return new Packet(packetWidth + (Math.random() * (kontra.canvas.width - packetWidth)), -packetWidth, Math.random() + 0.5, packetWidth, kontra.canvas.width, kontra.canvas.height); // eslint-disable-line no-undef
 }
 
 export function setupPackets(numPackets) {
