@@ -43,7 +43,7 @@ const loop = kontra.gameLoop({
       packet.update();
       const {x, y} = packet.checkBlockCollisions(blocks);
       if(x && y) {
-        effects.push(new Effect(x, y, 1, 25));
+        effects.push(new Effect(x, y, 1, 15));
       }
       if (packet.lost) {
         packets.splice(index, 1);
