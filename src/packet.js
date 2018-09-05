@@ -21,7 +21,7 @@ export class Packet {
 
   checkBlockCollisions(blocks) {
     blocks.forEach((block) => {
-      const result = this.calculateClosestPoint(block);
+      const {x, y, dist} = this.calculateClosestPoint(block);
       const xlen = (block.width / 2) * Math.cos(block.rotation);
       const ylen = (block.width / 2) * Math.sin(block.rotation);
 
@@ -30,9 +30,9 @@ export class Packet {
       let maxXpos = block.x + xlen;
       let maxYpos = block.y + ylen;
 
-      if ((result[0] > Math.min(minXpos, maxXpos) && result[0] < Math.max(minXpos, maxXpos))
-        || (result[1] > Math.min(minYpos, maxYpos) && result[1] < Math.max(minYpos, maxYpos))) {
-        if (result[2] < this.radius) {
+      if ((x > Math.min(minXpos, maxXpos) && x < Math.max(minXpos, maxXpos))
+        || (y > Math.min(minYpos, maxYpos) && y < Math.max(minYpos, maxYpos))) {
+        if (dist < this.radius) {
           this.bounce(block);
         }
       }
@@ -57,7 +57,7 @@ export class Packet {
     const a = -Math.tan(block.rotation);
     const b = 1;
     const c = (block.x * Math.tan(block.rotation)) - block.y;
-    return [a, b, c];
+    return {a, b, c};
   }
 
   calculateClosestPoint(block) {
@@ -65,17 +65,14 @@ export class Packet {
     // x = (b(b * x0 - a * y0) - ac)/(a^2 + b^2)
     // y = (a(-b * x0 + a * y0) - bc)/(a^2 + b^2)
 
-    const coeffs = this.calculateLineEquation(block);
-    const a = coeffs[0];
-    const b = coeffs[1];
-    const c = coeffs[2];
+    const { a, b, c }  = this.calculateLineEquation(block);
 
     const x = (b * (b * this.x - a * this.y) - (a * c)) / (Math.pow(a, 2) + Math.pow(b, 2));
 
     const y = (a * (-b * this.x + a * this.y) - (b * c)) / (Math.pow(a, 2) + Math.pow(b, 2));
 
     const dist = Math.abs((a * this.x) + (b * this.y) + c) / Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-    return [x, y, dist];
+    return {x, y, dist};
   }
 
   bounce(block) {
@@ -99,7 +96,7 @@ export class Packet {
 
 
 export function generatePacket() {
-  const packetWidth = 10;
+  const packetWidth = 4;
   return new Packet(packetWidth + (Math.random() * (kontra.canvas.width - packetWidth)), -packetWidth, Math.random() + 0.5, packetWidth, kontra.canvas.width, kontra.canvas.height); // eslint-disable-line no-undef
 }
 
