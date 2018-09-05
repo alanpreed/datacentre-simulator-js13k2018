@@ -8,6 +8,7 @@ require('kontra');
 
 kontra.init();
 
+const background = kontra.sprite({x: 0, y: 0, width: kontra.canvas.width, height: kontra.canvas.height, color: 'black'});
 const packets = setupPackets(5);
 const effects = [];
 let score = 0;
@@ -42,7 +43,7 @@ const loop = kontra.gameLoop({
       packet.update();
       const {x, y} = packet.checkBlockCollisions(blocks);
       if(x && y) {
-        effects.push(new Effect(x, y, 5, 25));
+        effects.push(new Effect(x, y, 1, 25));
       }
       if (packet.lost) {
         packets.splice(index, 1);
@@ -80,6 +81,8 @@ const loop = kontra.gameLoop({
     pointer.update();
   },
   render() {
+    background.render();
+
     packets.forEach(packet => kontra.sprite(packet).render());
     connections.filter(connection => connection.shouldRender())
       .forEach(connection => kontra.sprite(connection).render());
