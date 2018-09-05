@@ -2,16 +2,18 @@
 import { setupPackets, generatePacket } from './packet';
 import { setupConnections, generateConnection } from './connection';
 import { Block } from './block';
+import { Effect } from './effect';
 
 require('kontra');
 
 kontra.init();
 
 const packets = setupPackets(5);
+const effects = [];
 let score = 0;
 const connections = setupConnections();
 const blocks = [];
-const pointer = kontra.sprite(new Block(kontra.pointer.x, kontra.pointer.y, 30, 5, 0));
+const pointer = kontra.sprite(new Block(kontra.pointer.x, kontra.pointer.y, 50, 5, 0));
 pointer.rotationStep = Math.PI / 8;
 pointer.color = 'blue';
 pointer.update = function () {
@@ -21,7 +23,7 @@ pointer.update = function () {
 
 // Input handling
 kontra.pointer.onDown(() => {
-  blocks.push(new Block(pointer.x, pointer.y, pointer.width, pointer.height, pointer.rotation, 200));
+  blocks.push(new Block(pointer.x, pointer.y, pointer.width, pointer.height, pointer.rotation, 50));
 });
 
 const handleMouseWheel = (e) => {
@@ -38,7 +40,10 @@ const loop = kontra.gameLoop({
   update() {
     packets.forEach((packet, index) => {
       packet.update();
-      packet.checkBlockCollisions(blocks);
+      const {x,y} = packet.checkBlockCollisions(blocks);
+      if(x && y) {
+        effects.push(new Effect(x, y, 5, 25));
+      }
       if (packet.lost) {
         packets.splice(index, 1);
         packets.push(generatePacket());
@@ -64,6 +69,14 @@ const loop = kontra.gameLoop({
       }
     });
 
+    effects.forEach((effect, index) => {
+      effect.update();
+
+      if (effect.finished) {
+        effects.splice(index, 1);
+      }
+    });
+
     pointer.update();
   },
   render() {
@@ -74,6 +87,7 @@ const loop = kontra.gameLoop({
     connections.forEach(connection => kontra.context.fillText(connection.requiredPackets, connection.x - 5, connection.y - 5));
     kontra.context.fillText(`Score: ${score}`, kontra.canvas.width / 2, 10);
     blocks.forEach(block => kontra.sprite(block).render());
+    effects.forEach(effect => kontra.sprite(effect).render());
     pointer.render();
   },
 });

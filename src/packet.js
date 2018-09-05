@@ -34,6 +34,7 @@ export class Packet {
         || (y > Math.min(minYpos, maxYpos) && y < Math.max(minYpos, maxYpos))) {
         if (dist < this.radius) {
           this.bounce(block);
+          return {x, y};
         }
       }
     });
