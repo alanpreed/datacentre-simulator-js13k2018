@@ -40,7 +40,7 @@ const loop = kontra.gameLoop({
   update() {
     packets.forEach((packet, index) => {
       packet.update();
-      const {x,y} = packet.checkBlockCollisions(blocks);
+      const {x, y} = packet.checkBlockCollisions(blocks);
       if(x && y) {
         effects.push(new Effect(x, y, 5, 25));
       }

@@ -20,6 +20,8 @@ export class Packet {
   }
 
   checkBlockCollisions(blocks) {
+    var collisionX, collisionY;
+
     blocks.forEach((block) => {
       const {x, y, dist} = this.calculateClosestPoint(block);
       const xlen = (block.width / 2) * Math.cos(block.rotation);
@@ -34,10 +36,12 @@ export class Packet {
         || (y > Math.min(minYpos, maxYpos) && y < Math.max(minYpos, maxYpos))) {
         if (dist < this.radius) {
           this.bounce(block);
-          return {x, y};
+          collisionX = x;
+          collisionY = y;
         }
       }
     });
+    return {x: collisionX, y: collisionY};
   }
 
   update() {
