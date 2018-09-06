@@ -102,7 +102,7 @@ export class Packet {
 
 export function generatePacket() {
   const packetWidth = 4;
-  return new Packet(-packetWidth, packetWidth + (Math.random() * (kontra.canvas.height - packetWidth)), Math.random() + 0.5, packetWidth, kontra.canvas.width, kontra.canvas.height); // eslint-disable-line no-undef
+  return new Packet(-packetWidth, packetWidth + (Math.random() * (kontra.canvas.height - (2*packetWidth))), Math.random() + 0.5, packetWidth, kontra.canvas.width, kontra.canvas.height); // eslint-disable-line no-undef
 }
 
 export function setupPackets(numPackets) {
