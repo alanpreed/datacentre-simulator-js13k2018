@@ -9,7 +9,7 @@ require('kontra');
 kontra.init();
 
 const background = kontra.sprite({x: 0, y: 0, width: kontra.canvas.width, height: kontra.canvas.height, color: 'black'});
-const packets = setupPackets(5);
+const packets = setupPackets(20);
 const effects = [];
 let score = 0;
 const connections = setupConnections();
@@ -53,10 +53,12 @@ const loop = kontra.gameLoop({
 
     connections.forEach((connection, index) => {
       connection.update();
-      const numOfCollisions = connection.checkCollisions(packets);
-      score += numOfCollisions;
+      if(connection.shouldRender()) {
+        const numOfCollisions = connection.checkCollisions(packets);
+        score += numOfCollisions;
+      }
 
-      if (connection.isLost) {
+      if (connection.isLost || connection.isSuccesful) {
         connections.splice(index, 1);
         connections.push(generateConnection());
       }
