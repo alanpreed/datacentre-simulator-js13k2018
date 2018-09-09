@@ -4,6 +4,7 @@ export class DataCenter {
   constructor() {
     const startX = (kontra.canvas.width - 350) /2;
     const size = 50;
+    this.shouldChangeGameState = false;
     this.dataCenterElements = [
       new DataCenterElement(startX + size, 50, size, size, true, 1000),
       new DataCenterElement(startX + size, 180, size, size, false),
@@ -15,7 +16,13 @@ export class DataCenter {
   update() {
     this.dataCenterElements.forEach(element => element.update());
     const failedElement = this.dataCenterElements.find(element => element.isFailed);
-    return failedElement ? 'insideElement' : 'dataCenter';
+    if(failedElement) {
+      setTimeout(() => { // Allow time for failure animation
+        this.shouldChangeGameState = true;
+      }, 1000);
+    }
+
+    return this.shouldChangeGameState ? 'insideElement' : 'dataCenter';
   }
 
   render() {
