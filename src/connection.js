@@ -1,26 +1,14 @@
 export class Connection {
-  constructor(x, y, width, height, connectionLife, requiredPackets) {
+  constructor(x, y, width, height, packetWaitTime) {
     this.x = x;
     this.y = y;
     this.color = '#00E52D';
     this.width = width;
     this.height = height;
-    this.connectionLife = connectionLife;
-    this.requiredPackets = requiredPackets;
-    this.startLife = connectionLife;
-    this.isSuccesful = false;
+    this.packetWaitTime = packetWaitTime;
+    this.timeSinceLastPacket = 0;
     this.gradient = ['#00E52D', '#02E701', '#32E902', '#63EC03', '#95EE05', '#C7F006', '#F3EC07',
       '#F5BE09', '#F78F0A', '#FA600C', '#FC310D', '#FF0F1B'];
-    this.gradient.reverse();
-  }
-
-  getCurrentColour() {
-    for (let i = 1; i < this.gradient.length; i++) {
-      if (this.connectionLife < (this.startLife / this.gradient.length) * i) {
-        return this.gradient[i];
-      }
-    }
-    return '#00E52D';
   }
 
   checkCollisions(packets) {
@@ -37,10 +25,8 @@ export class Connection {
       // If the distance is less than the circle's radius, an intersection occurs
       const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
       if (distanceSquared < (packet.radius * packet.radius)) {
-        collisions++;
+        this.timeSinceLastPacket = 0;
         packet.lost = true;
-        this.requiredPackets--;
-        this.connectionLife += 50;
       }
     });
     return collisions;
@@ -50,43 +36,10 @@ export class Connection {
     return Math.max(min, Math.min(max, val));
   }
 
-  isInactive() {
-    return this.isLost || this.isSuccesful;
-  }
-
   update() {
-    if (this.connectionLife === 0 && this.requiredPackets > 0) {
-      this.isLost = true;
-    } else if (this.requiredPackets === 0) {
-      this.isSuccesful = true;
-    } else {
-      this.connectionLife--;
-      this.color = this.getCurrentColour();
-    }
+    i = this.clamp(Math.round((this.gradient.length - 1) * (this.timeSinceLastPacket / this.packetWaitTime)),
+                       0, (this.gradient.length - 1));
+    this.color = this.gradient[i];
+    this.timeSinceLastPacket++;
   }
-}
-
-function getConnectionLife() {
-  return Math.max(500, Math.round(Math.random() * 4000));
-}
-
-function createBottomConnection() {
-  const connectionWidth = 40;
-  const connectionHeight = 20;
-  return new Connection(connectionWidth + Math.random() * (kontra.canvas.width - (2*connectionWidth)), kontra.canvas.height - connectionHeight, connectionWidth, connectionHeight, getConnectionLife(), 10); // eslint-disable-line no-undef
-}
-
-function createSideConnection() {
-  const connectionWidth = 40;
-  const connectionHeight = 20;
-  return new Connection(kontra.canvas.width - connectionHeight, connectionWidth + Math.random() * (kontra.canvas.height - (2*connectionWidth)), connectionHeight, connectionWidth, getConnectionLife(), 10); // eslint-disable-line no-undef
-}
-
-export function generateConnection() {
-  const isBottom = Math.floor((Math.random() * 2)) === 0;
-  return isBottom ? createBottomConnection() : createSideConnection();
-}
-
-export function setupConnections() {
-  return Array(5).fill(null).map(() => generateConnection());
 }

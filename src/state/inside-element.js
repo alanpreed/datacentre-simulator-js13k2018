@@ -1,17 +1,12 @@
-import { setupConnections, generateConnection } from '../connection';
+import { Connection } from '../connection';
 import { Block } from '../block';
 import { Effect } from '../effect';
 import { packetSpawner } from '../packetSpawner';
 
 export class InsideElement {
-
   constructor(level) {
-    this.level = level;
-    this.packets = [];
-    this.packetSpawner = new packetSpawner(0.1, kontra.canvas.width, kontra.canvas.height);
-    this.effects = [];
-    this.connections = setupConnections();
-    this.blocks = [];
+    this.setupLevel(level);
+
     this.pointer = kontra.sprite(new Block(kontra.pointer.x, kontra.pointer.y, 50, 5, 0));
     this.pointer.rotationStep = Math.PI / 8;
     this.pointer.color = 'blue';
@@ -19,6 +14,7 @@ export class InsideElement {
       this.x = kontra.pointer.x;
       this.y = kontra.pointer.y;
     };
+
     kontra.pointer.onDown(() => {
       this.blocks.push(new Block(this.pointer.x,
         this.pointer.y,
@@ -37,13 +33,14 @@ export class InsideElement {
     };
 
     document.addEventListener('wheel', handleMouseWheel);
-
   }
 
   update() {
-    if(this.packetSpawner.checkSpawnPacket()) {
-      this.packets.push(this.packetSpawner.generatePacket());
-    }
+    this.packetSpawners.forEach(packetSpawner => {
+      if(packetSpawner.checkSpawnPacket()) {
+        this.packets.push(packetSpawner.generatePacket());
+      }
+    })
 
     this.packets.forEach((packet, index) => {
       packet.update();
@@ -62,7 +59,6 @@ export class InsideElement {
 
       if (connection.isLost || connection.isSuccesful) {
         this.connections.splice(index, 1);
-        this.connections.push(generateConnection());
       }
     });
 
@@ -87,13 +83,30 @@ export class InsideElement {
     return 'insideElement';
   }
 
-  render() { /* eslint-disable no-undef*/
-    this.packets.forEach(packet => kontra.sprite(packet).render());
-    this.connections.forEach(connection => kontra.sprite(connection).render());
-    this.connections.forEach(connection => kontra.context.fillText(connection.connectionLife, connection.x, connection.y));
-    this.connections.forEach(connection => kontra.context.fillText(connection.requiredPackets, connection.x - 5, connection.y - 5));
-    this.blocks.forEach(block => kontra.sprite(block).render());
-    this.effects.forEach(effect => kontra.sprite(effect).render());
+  render() {
+    let objectGroups = [this.packets, this.connections, this.blocks, this.effects];
+    objectGroups.forEach(group => group.forEach(object => kontra.sprite(object).render()));
     this.pointer.render();
+
+    this.connections.forEach(connection => kontra.context.fillText(connection.timeSinceLastPacket, connection.x, connection.y));
+  }
+
+  setupLevel(level) {
+    this.level = level;
+    this.packets = [];
+    this.packetSpawners = [];
+    this.effects = [];
+    this.connections = [];
+    this.blocks = [];
+
+    for(var i = 0; i < 5; i++) {
+      this.packetSpawners.push(new packetSpawner(0.1, kontra.canvas.width, kontra.canvas.height));
+    }
+
+    for(var i = 0; i < 50; i++) {
+      const connectionWidth = 20;
+      const connectionHeight = 20;
+      this.connections.push(new Connection(Math.random() * (kontra.canvas.width - connectionWidth), Math.random() * (kontra.canvas.height - connectionHeight), connectionHeight, connectionWidth, 100));
+    }
   }
 }
