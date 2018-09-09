@@ -73,17 +73,20 @@ export class Connection {
   }
 }
 
-
 function getConnectionLife() {
   return Math.max(500, Math.round(Math.random() * 4000));
 }
 
 function createBottomConnection() {
-  return new Connection(Math.random() * kontra.canvas.width, kontra.canvas.height - 50, 20, 30, getConnectionLife(), 10); // eslint-disable-line no-undef
+  const connectionWidth = 40;
+  const connectionHeight = 20;
+  return new Connection(connectionWidth + Math.random() * (kontra.canvas.width - (2*connectionWidth)), kontra.canvas.height - connectionHeight, connectionWidth, connectionHeight, getConnectionLife(), 10); // eslint-disable-line no-undef
 }
 
 function createSideConnection() {
-  return new Connection(kontra.canvas.width - 50, Math.random() * kontra.canvas.height, 30, 20, getConnectionLife(), 10); // eslint-disable-line no-undef
+  const connectionWidth = 40;
+  const connectionHeight = 20;
+  return new Connection(kontra.canvas.width - connectionHeight, connectionWidth + Math.random() * (kontra.canvas.height - (2*connectionWidth)), connectionHeight, connectionWidth, getConnectionLife(), 10); // eslint-disable-line no-undef
 }
 
 export function generateConnection() {

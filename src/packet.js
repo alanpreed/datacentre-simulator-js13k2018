@@ -3,8 +3,8 @@ export class Packet {
     this.x = x;
     this.y = y;
     this.color = 'red';
-    this.dx = 0;
-    this.dy = speed;
+    this.dx = speed;
+    this.dy = 0;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
     this.radius = radius;
@@ -20,6 +20,8 @@ export class Packet {
   }
 
   checkBlockCollisions(blocks) {
+    var collisionX, collisionY;
+
     blocks.forEach((block) => {
       const {x, y, dist} = this.calculateClosestPoint(block);
       const xlen = (block.width / 2) * Math.cos(block.rotation);
@@ -34,10 +36,12 @@ export class Packet {
         || (y > Math.min(minYpos, maxYpos) && y < Math.max(minYpos, maxYpos))) {
         if (dist < this.radius) {
           this.bounce(block);
-          return {x, y};
+          collisionX = x;
+          collisionY = y;
         }
       }
     });
+    return {x: collisionX, y: collisionY};
   }
 
   update() {
@@ -98,7 +102,7 @@ export class Packet {
 
 export function generatePacket() {
   const packetWidth = 4;
-  return new Packet(packetWidth + (Math.random() * (kontra.canvas.width - packetWidth)), -packetWidth, Math.random() + 0.5, packetWidth, kontra.canvas.width, kontra.canvas.height); // eslint-disable-line no-undef
+  return new Packet(-packetWidth, packetWidth + (Math.random() * (kontra.canvas.height - (2*packetWidth))), Math.random() + 1, packetWidth, kontra.canvas.width, kontra.canvas.height); // eslint-disable-line no-undef
 }
 
 export function setupPackets(numPackets) {

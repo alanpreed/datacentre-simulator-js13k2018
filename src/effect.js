@@ -8,10 +8,14 @@ export class Effect {
     this.finished = false;
 
     this.render = function () {
-      this.context.strokeStyle = this.color;
+      let gradient = this.context.createRadialGradient(this.x, this.y, this.radius/2, this.x, this.y, this.radius);
+      gradient.addColorStop(0, 'transparent');
+      gradient.addColorStop(1, 'red');
+
+      this.context.fillStyle = gradient;
       this.context.beginPath();
       this.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      this.context.stroke();
+      this.context.fill();
     };
   }
 
