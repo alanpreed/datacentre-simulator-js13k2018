@@ -62,14 +62,6 @@ export class InsideElement {
       }
     });
 
-    this.blocks.forEach((block, index) => {
-      // block.update();
-
-      // if (block.lifetime === 0) {
-      //   this.blocks.splice(index, 1);
-      // }
-    });
-
     this.effects.forEach((effect, index) => {
       effect.update();
 
@@ -99,11 +91,13 @@ export class InsideElement {
     this.connections = [];
     this.blocks = [];
 
-    for(var i = 0; i < 5; i++) {
+    let numProblems = 5;
+
+    for(var i = 0; i < numProblems; i++) {
       this.packetSpawners.push(new packetSpawner(0.1, kontra.canvas.width, kontra.canvas.height));
     }
 
-    for(var i = 0; i < 50; i++) {
+    for(var i = 0; i < numProblems; i++) {
       const connectionWidth = 20;
       const connectionHeight = 20;
       this.connections.push(new Connection(Math.random() * (kontra.canvas.width - connectionWidth), Math.random() * (kontra.canvas.height - connectionHeight), connectionHeight, connectionWidth, 100));
