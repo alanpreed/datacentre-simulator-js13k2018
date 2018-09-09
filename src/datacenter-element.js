@@ -9,7 +9,7 @@ export class DataCenterElement {
     this.shouldFail = shouldFail;
     this.failureDelay = failureDelay;
   }
-  
+
   shouldRender() {
     return this.connectionDelay <= 0 && !this.isInactive();
   }
@@ -17,12 +17,13 @@ export class DataCenterElement {
   isActive() {
     return this.shouldFail && !this.isFailed;
   }
-  
+
   update() {
     if(this.isActive()) {
       this.failureDelay --;
       if(this.failureDelay === 0) {
         this.isFailed = true;
+        this.color = 'red';
       }
     }
   }
