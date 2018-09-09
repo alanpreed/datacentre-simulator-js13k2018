@@ -27,7 +27,7 @@ const loop = kontra.gameLoop({
 
     const newGameState = gameState[currentGameState].update();
 
-    if(newGameState !== currentGameState) {
+    if(!newGameState) {
       gameState[currentGameState] = null;
       currentGameState = newGameState;
     }
