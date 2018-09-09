@@ -1,10 +1,10 @@
 export class Packet {
-  constructor(x, y, speed, radius, canvasWidth, canvasHeight) {
+  constructor(x, y, speed, rotation, radius, canvasWidth, canvasHeight) {
     this.x = x;
     this.y = y;
     this.color = 'red';
-    this.dx = speed;
-    this.dy = 0;
+    this.dx = speed * Math.cos(rotation);
+    this.dy = speed * Math.sin(rotation);
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
     this.radius = radius;
@@ -97,19 +97,4 @@ export class Packet {
   pythagoras(x, y) {
     return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
   }
-}
-
-
-export function generatePacket() {
-  const packetWidth = 4;
-  return new Packet(-packetWidth, packetWidth + (Math.random() * (kontra.canvas.height - (2*packetWidth))), Math.random() + 1, packetWidth, kontra.canvas.width, kontra.canvas.height); // eslint-disable-line no-undef
-}
-
-export function setupPackets(numPackets) {
-  const packets = [];
-
-  for (let i = 0; i < numPackets; i++) {
-    packets[i] = generatePacket();
-  }
-  return packets;
 }

@@ -1,14 +1,14 @@
-import { setupPackets, generatePacket } from '../packet';
 import { setupConnections, generateConnection } from '../connection';
 import { Block } from '../block';
 import { Effect } from '../effect';
-
+import { packetSpawner } from '../packetSpawner';
 
 export class InsideElement {
 
   constructor(level) {
     this.level = level;
-    this.packets = setupPackets(20);
+    this.packets = [];
+    this.packetSpawner = new packetSpawner(0.1, kontra.canvas.width, kontra.canvas.height);
     this.effects = [];
     this.connections = setupConnections();
     this.blocks = [];
@@ -41,6 +41,9 @@ export class InsideElement {
   }
 
   update() {
+    if(this.packetSpawner.checkSpawnPacket()) {
+      this.packets.push(this.packetSpawner.generatePacket());
+    }
     this.packets.forEach((packet, index) => {
       packet.update();
       const { x, y } = packet.checkBlockCollisions(this.blocks);
@@ -49,7 +52,6 @@ export class InsideElement {
       }
       if (packet.lost) {
         this.packets.splice(index, 1);
-        this.packets.push(generatePacket());
       }
     });
 
@@ -93,9 +95,5 @@ export class InsideElement {
     this.blocks.forEach(block => kontra.sprite(block).render());
     this.effects.forEach(effect => kontra.sprite(effect).render());
     this.pointer.render();
-
   }
-
 }
-
-
