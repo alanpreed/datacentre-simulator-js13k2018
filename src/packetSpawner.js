@@ -15,7 +15,6 @@ export class packetSpawner {
     else {
       this.rotation = -Math.random() * Math.PI / 2
     }
-    console.log(this.rotation);
   }
 
   checkSpawnPacket() {
