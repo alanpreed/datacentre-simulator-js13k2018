@@ -29,11 +29,14 @@ export class packetSpawner {
       default:
     }
 
+    // Don't let packets spawn less than 15 degrees from a side
+    let minRotation = Math.PI / 12;
+
     if(this.x < this.canvasWidth / 2) {
-      this.rotation = (Math.random() * Math.PI / 2);
+      this.rotation = minRotation + (Math.random() * ((Math.PI / 2) - (2 * minRotation)));
     }
     else {
-      this.rotation = (Math.PI / 2) + (Math.random() * Math.PI / 2);
+      this.rotation = (Math.PI / 2) + minRotation + (Math.random() * ((Math.PI / 2) - (2 * minRotation)));
     }
     if(this.y > this.canvasHeight / 2) {
       this.rotation *= -1;
