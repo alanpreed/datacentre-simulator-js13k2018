@@ -44,6 +44,7 @@ export class InsideElement {
     if(this.packetSpawner.checkSpawnPacket()) {
       this.packets.push(this.packetSpawner.generatePacket());
     }
+
     this.packets.forEach((packet, index) => {
       packet.update();
       const { x, y } = packet.checkBlockCollisions(this.blocks);
@@ -66,11 +67,11 @@ export class InsideElement {
     });
 
     this.blocks.forEach((block, index) => {
-      block.update();
+      // block.update();
 
-      if (block.lifetime === 0) {
-        this.blocks.splice(index, 1);
-      }
+      // if (block.lifetime === 0) {
+      //   this.blocks.splice(index, 1);
+      // }
     });
 
     this.effects.forEach((effect, index) => {
@@ -88,8 +89,7 @@ export class InsideElement {
 
   render() { /* eslint-disable no-undef*/
     this.packets.forEach(packet => kontra.sprite(packet).render());
-    this.connections.filter(connection => connection.shouldRender())
-      .forEach(connection => kontra.sprite(connection).render());
+    this.connections.forEach(connection => kontra.sprite(connection).render());
     this.connections.forEach(connection => kontra.context.fillText(connection.connectionLife, connection.x, connection.y));
     this.connections.forEach(connection => kontra.context.fillText(connection.requiredPackets, connection.x - 5, connection.y - 5));
     this.blocks.forEach(block => kontra.sprite(block).render());

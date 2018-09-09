@@ -5,7 +5,6 @@ export class Connection {
     this.color = '#00E52D';
     this.width = width;
     this.height = height;
-    this.connectionDelay = Math.random() * 250;
     this.connectionLife = connectionLife;
     this.requiredPackets = requiredPackets;
     this.startLife = connectionLife;
@@ -22,10 +21,6 @@ export class Connection {
       }
     }
     return '#00E52D';
-  }
-
-  shouldRender() {
-    return this.connectionDelay <= 0 && !this.isInactive();
   }
 
   checkCollisions(packets) {
@@ -64,8 +59,6 @@ export class Connection {
       this.isLost = true;
     } else if (this.requiredPackets === 0) {
       this.isSuccesful = true;
-    } else if (this.connectionDelay > 0) {
-      this.connectionDelay--;
     } else {
       this.connectionLife--;
       this.color = this.getCurrentColour();
