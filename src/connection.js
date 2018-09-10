@@ -37,8 +37,8 @@ export class Connection {
   }
 
   update() {
-    i = this.clamp(Math.round((this.gradient.length - 1) * (this.timeSinceLastPacket / this.packetWaitTime)),
-                       0, (this.gradient.length - 1));
+    const val = Math.round((this.gradient.length - 1) * (this.timeSinceLastPacket / this.packetWaitTime));
+    const i = this.clamp(val,0, (this.gradient.length - 1));
     this.color = this.gradient[i];
     this.timeSinceLastPacket++;
   }
