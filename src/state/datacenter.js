@@ -1,18 +1,20 @@
 import { DataCenterElement } from '../datacenter-element';
 
 export class DataCenter {
-  constructor() {
+  constructor(level) {
     const startX = (kontra.canvas.width - 350) /2;
     const size = 50;
     this.shouldChangeGameState = false;
 
-    const failingElement = Math.random() * 5;
+    const failingElement = Math.round(Math.random() * 4);
+    const isFailingElement = (number) => { return failingElement === number;};
+    const delay = Math.min(100, 500 - (level*10));
     this.dataCenterElements = [
-      new DataCenterElement(startX + size, 50, size, size, true, 600),
-      new DataCenterElement(startX + size, 180, size, size, false),
-      new DataCenterElement(startX + 100 + size, size, size, size, false),
-      new DataCenterElement(startX + 200 + size, 50, size, size, false),
-      new DataCenterElement(startX + 200 + size, 180, 50, 50, false)];
+      new DataCenterElement(startX + size, 50, size, size, isFailingElement(0), delay),
+      new DataCenterElement(startX + size, 180, size, size, isFailingElement(1), delay),
+      new DataCenterElement(startX + 100 + size, size, size, size, isFailingElement(2), delay),
+      new DataCenterElement(startX + 200 + size, 50, size, size, isFailingElement(3), delay),
+      new DataCenterElement(startX + 200 + size, 180, 50, 50, isFailingElement(4), delay)];
 
     kontra.pointer.onDown(() => {
       if(this.failedElement) {
