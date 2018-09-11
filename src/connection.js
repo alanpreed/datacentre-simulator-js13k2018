@@ -7,6 +7,7 @@ export class Connection {
     this.height = height;
     this.packetWaitTime = packetWaitTime;
     this.timeSinceLastPacket = 0;
+    this.failed = false;
     this.gradient = ['#00E52D', '#02E701', '#32E902', '#63EC03', '#95EE05', '#C7F006', '#F3EC07',
       '#F5BE09', '#F78F0A', '#FA600C', '#FC310D', '#FF0F1B'];
   }
@@ -50,6 +51,9 @@ export class Connection {
     }
     else {
       this.color = this.gradient[i];
+    }
+    if(this.timeSinceLastPacket > (2 * this.packetWaitTime)){
+      this.failed = true;
     }
     this.timeSinceLastPacket++;
   }
