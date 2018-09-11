@@ -105,7 +105,7 @@ export class InsideElement {
     this.connections = [];
     this.blocks = [];
 
-    let numProblems = 2 * Math.round(level / 2);
+    let numProblems = 2 + Math.round(level / 2);
 
     for(var i = 0; i < numProblems; i++) {
       const spawnerSpeed = 1 + (level / 4);
