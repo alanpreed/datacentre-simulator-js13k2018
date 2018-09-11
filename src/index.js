@@ -29,6 +29,7 @@ const loop = kontra.gameLoop({
         gameState[currentGameState] = new Menu();
       } else if (currentGameState === 'failed') {
         currentGameState = 'menu';
+        level = 1;
         gameState[currentGameState] = new Menu('failed');
       }
     }

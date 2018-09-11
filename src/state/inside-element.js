@@ -54,12 +54,17 @@ export class InsideElement {
       }
     });
 
+    let succeededConnections = 0;
+
     this.connections.forEach((connection, index) => {
       connection.update();
       connection.checkCollisions(this.packets);
 
       if (connection.failed) {
         this.failed = true;
+      }
+      if(connection.succeeded) {
+        succeededConnections++;
       }
     });
 
@@ -75,6 +80,9 @@ export class InsideElement {
 
     if(this.failed) {
       return 'failed';
+    }
+    else if(succeededConnections === this.connections.length) {
+      return 'dataCenter';
     }
     else {
       return 'insideElement';
@@ -106,7 +114,7 @@ export class InsideElement {
     for(var i = 0; i < numProblems; i++) {
       const connectionWidth = 20;
       const connectionHeight = 20;
-      this.connections.push(new Connection(Math.random() * (kontra.canvas.width - connectionWidth), Math.random() * (kontra.canvas.height - connectionHeight), connectionHeight, connectionWidth, 500));
+      this.connections.push(new Connection(Math.random() * (kontra.canvas.width - connectionWidth), Math.random() * (kontra.canvas.height - connectionHeight), connectionHeight, connectionWidth, 500, 200));
     }
   }
 }

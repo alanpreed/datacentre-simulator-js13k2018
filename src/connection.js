@@ -1,5 +1,5 @@
 export class Connection {
-  constructor(x, y, width, height, packetWaitTime) {
+  constructor(x, y, width, height, packetWaitTime, successWaitTime) {
     this.x = x;
     this.y = y;
     this.color = '#00E52D';
@@ -8,6 +8,9 @@ export class Connection {
     this.packetWaitTime = packetWaitTime;
     this.timeSinceLastPacket = 0;
     this.failed = false;
+    this.succeeded = false;
+    this.timeSpentOK = 0;
+    this.successWaitTime = successWaitTime;
     this.gradient = ['#00E52D', '#02E701', '#32E902', '#63EC03', '#95EE05', '#C7F006', '#F3EC07',
       '#F5BE09', '#F78F0A', '#FA600C', '#FC310D', '#FF0F1B'];
   }
@@ -50,6 +53,16 @@ export class Connection {
       }
     }
     else {
+      if(i < 2) {
+        this.timeSpentOK++;
+        if(this.timeSpentOK > this.successWaitTime) {
+          this.succeeded = true;
+        }
+      }
+      else {
+        this.timeSpentOK = 0;
+        this.succeeded = false;
+      }
       this.color = this.gradient[i];
     }
     if(this.timeSinceLastPacket > (2 * this.packetWaitTime)){
