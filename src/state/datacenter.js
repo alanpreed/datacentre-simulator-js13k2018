@@ -43,13 +43,14 @@ export class DataCenter {
     context.font = '20px Arial';
     context.fillStyle = 'white';
     context.textAlign ='center';
-    context.fillText('System status:', kontra.canvas.width/2, 20);
     if(this.failedElement) {
+      context.fillText('System status:', kontra.canvas.width/2 - 50, 20);
       context.fillStyle='red';
-      context.fillText('ERROR', kontra.canvas.width/2 + 85, 20);
+      context.fillText('ERROR', kontra.canvas.width/2 + 80, 20);
     } else {
+      context.fillText('System status:', kontra.canvas.width/2 - 50, 20);
       context.fillStyle='green';
-      context.fillText('OK', kontra.canvas.width/2 + 85, 20);
+      context.fillText('OK', kontra.canvas.width/2 + 65, 20);
     }
     // kontra.context.fillText(connection.timeSinceLastPacket, connection.x, connection.y);
     this.dataCenterElements.forEach(element => kontra.sprite(element).render()); // eslint-disable-line no-undef
