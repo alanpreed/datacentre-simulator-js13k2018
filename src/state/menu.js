@@ -1,15 +1,28 @@
-import { Packet } from "../packet";
-import { Connection } from "../connection";
+import { Packet } from '../packet';
+import { Connection } from '../connection';
 
 export class Menu {
   constructor() {
     this.isIntroScreen = true;
+
+    kontra.pointer.onDown(() => {
+      if(this.isIntroScreen) {
+        if(kontra.pointer.over({
+          x: kontra.canvas.width/2,
+          y: kontra.canvas.height - 50,
+          height: 20,
+          width: 200
+        })); {
+          this.shouldChangeGameState = true;
+        }
+      }
+    });
   }
 
   update() {
 
 
-    return 'menu';
+    return this.shouldChangeGameState ? 'dataCenter' : 'menu';
   }
 
   render() {
@@ -35,6 +48,11 @@ export class Menu {
       context.fillText('are delivered to connections: ', kontra.canvas.width/2, 110);
       const connection = new Connection(kontra.canvas.width/2 - 10, 125, 20,20, 100);
       kontra.sprite(connection).render();
+
+      context.font = '30px Helvetica';
+      context.fillStyle = 'white';
+      context.fillText('Start Game', kontra.canvas.width/2, kontra.canvas.height - 50);
+
     }
   }
 }
