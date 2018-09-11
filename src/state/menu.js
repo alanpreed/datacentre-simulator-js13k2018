@@ -5,6 +5,7 @@ export class Menu {
   constructor() {
     this.isIntroScreen = false;
     this.isInitialScreen = true;
+    this.canRenderLogoSprite = false;
 
     kontra.pointer.onDown(() => {
       if(kontra.pointer.over({
@@ -22,6 +23,19 @@ export class Menu {
       }
 
     });
+
+    let image = new Image();
+    image.src = 'assets/images/logo.png';
+    this.logoSprite = kontra.sprite({
+      x: -1,
+      y: 20,
+      width: 100,
+      image: image
+    });
+
+    image.onload = () => {
+      this.canRenderLogoSprite = true;
+    };
   }
 
   update() {
@@ -40,7 +54,9 @@ export class Menu {
 
     if(this.isInitialScreen) {
       // Render tile
-      context.fillText('INSERT LOGO HERE', kontra.canvas.width/2, 20);
+      if(this.canRenderLogoSprite) {
+        this.logoSprite.render();
+      }
       context.font = '40px Helvetica';
       context.fillText('Play', kontra.canvas.width/2, kontra.canvas.height - 50);
 
