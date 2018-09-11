@@ -48,6 +48,6 @@ export class packetSpawner {
   }
 
   generatePacket() {
-    return new Packet(this.x, this.y, Math.random() + 1, this.rotation, this.packetWidth, this.canvasWidth, this.canvasHeight);
+    return new Packet(this.x, this.y, 2*(Math.random() + 1), this.rotation, this.packetWidth, this.canvasWidth, this.canvasHeight);
   }
 }
