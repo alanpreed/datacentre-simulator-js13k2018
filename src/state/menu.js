@@ -3,19 +3,24 @@ import { Connection } from '../connection';
 
 export class Menu {
   constructor() {
-    this.isIntroScreen = true;
+    this.isIntroScreen = false;
+    this.isInitialScreen = true;
 
     kontra.pointer.onDown(() => {
-      if(this.isIntroScreen) {
-        if(kontra.pointer.over({
-          x: kontra.canvas.width/2,
-          y: kontra.canvas.height - 50,
-          height: 20,
-          width: 200
-        })); {
+      if(kontra.pointer.over({
+        x: kontra.canvas.width/2,
+        y: kontra.canvas.height - 50,
+        height: 20,
+        width: 200
+      })); {
+        if(this.isIntroScreen) {
           this.shouldChangeGameState = true;
+        } else if(this.isInitialScreen) {
+          this.isInitialScreen = false;
+          this.isIntroScreen = true;
         }
       }
+
     });
   }
 
@@ -35,7 +40,10 @@ export class Menu {
 
     if(this.isInitialScreen) {
       // Render tile
-      // render play
+      context.fillText('INSERT LOGO HERE', kontra.canvas.width/2, 20);
+      context.font = '40px Helvetica';
+      context.fillText('Play', kontra.canvas.width/2, kontra.canvas.height - 50);
+
     } else if( this.isIntroScreen) {
       //  render help text
       //  render sprites;
