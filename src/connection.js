@@ -39,7 +39,18 @@ export class Connection {
   update() {
     const val = Math.round((this.gradient.length - 1) * (this.timeSinceLastPacket / this.packetWaitTime));
     const i = this.clamp(val,0, (this.gradient.length - 1));
-    this.color = this.gradient[i];
+    if(i === this.gradient.length - 1) {
+      const flashPeriod = 30;
+      if((this.timeSinceLastPacket - this.packetWaitTime) % flashPeriod < flashPeriod / 2){
+        this.color = 'black'
+      }
+      else{
+        this.color = this.gradient[i];
+      }
+    }
+    else {
+      this.color = this.gradient[i];
+    }
     this.timeSinceLastPacket++;
   }
 }
