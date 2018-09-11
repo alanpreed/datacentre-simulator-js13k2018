@@ -1,5 +1,6 @@
 import { Packet } from '../packet';
 import { Connection } from '../connection';
+import { Block } from '../block';
 
 export class Menu {
   constructor() {
@@ -24,16 +25,16 @@ export class Menu {
 
     });
 
-    let image = new Image();
-    image.src = 'assets/images/logo.png';
+    let logoImage = new Image();
+    logoImage.src = 'assets/images/logo.png';
     this.logoSprite = kontra.sprite({
       x: -1,
       y: 20,
       width: 100,
-      image: image
+      image: logoImage
     });
 
-    image.onload = () => {
+    logoImage.onload = () => {
       this.canRenderLogoSprite = true;
     };
   }
@@ -72,6 +73,17 @@ export class Menu {
       context.fillText('are delivered to connections: ', kontra.canvas.width/2, 110);
       const connection = new Connection(kontra.canvas.width/2 - 10, 125, 20,20, 100);
       kontra.sprite(connection).render();
+      context.fillStyle = 'white';
+      context.fillText('by placing patch cables: ', kontra.canvas.width/2, 165);
+      const block = new Block(kontra.canvas.width/2,
+        180,
+        40,
+        5,
+        0,
+        50);
+      kontra.sprite(block).render();
+      context.fillText('before the datacentre goes offline.', kontra.canvas.width/2, 205);
+
 
       context.font = '30px Helvetica';
       context.fillStyle = 'white';
