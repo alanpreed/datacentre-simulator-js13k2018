@@ -6,7 +6,8 @@
   "author": "Alan Reed & Mike Smith",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-serve"
+    "start": "webpack-serve",
+    "build": "webpack"
   },
   "dependencies": {
     "copy-webpack-plugin": "^4.5.2",
