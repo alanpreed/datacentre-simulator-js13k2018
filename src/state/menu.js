@@ -98,8 +98,6 @@ export class Menu {
         if(this.canRenderLogoSprite) {
           this.logoSprite.render();
         }
-        context.font = '14px Helvetica';
-        context.fillText('INSERT LOGO HERE', kontra.canvas.width/2, 20);
         context.font = '40px Helvetica';
         context.fillText('Play', kontra.canvas.width/2, kontra.canvas.height - 50);
     }
