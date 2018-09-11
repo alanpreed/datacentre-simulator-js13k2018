@@ -72,12 +72,7 @@ export class Menu {
       kontra.sprite(connection).render();
       context.fillStyle = 'white';
       context.fillText('by placing patch cables: ', kontra.canvas.width/2, 165);
-      const block = new Block(kontra.canvas.width/2,
-        180,
-        40,
-        5,
-        0,
-        50);
+      const block = new Block(kontra.canvas.width/2, 180, 40, 5, 0, 50);
       kontra.sprite(block).render();
       context.fillText('before the datacentre goes offline.', kontra.canvas.width/2, 205);
 
