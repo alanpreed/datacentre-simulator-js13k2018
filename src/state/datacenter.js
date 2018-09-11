@@ -40,7 +40,7 @@ export class DataCenter {
   render() {
     // Render status text
     const context = kontra.context;
-    context.font = '20px Arial';
+    context.font = '20px Helvetica';
     context.fillStyle = 'white';
     context.textAlign ='center';
     if(this.failedElement) {

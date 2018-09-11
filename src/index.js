@@ -7,7 +7,7 @@ import { Menu } from './state/menu';
 kontra.init();
 
 const background = kontra.sprite({x: 0, y: 0, width: kontra.canvas.width, height: kontra.canvas.height, color: 'black'});
-let currentGameState = 'dataCenter';
+let currentGameState = 'menu';
 const gameState = {
   menu : null,
   insideElement: null,
