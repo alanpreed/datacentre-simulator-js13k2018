@@ -8,7 +8,7 @@ export class DataCenter {
 
     const failingElement = Math.round(Math.random() * 4);
     const isFailingElement = (number) => { return failingElement === number;};
-    const delay = Math.min(100, 500 - (level*10));
+    const delay = Math.max(100, 500 - (level*10));
     this.dataCenterElements = [
       new DataCenterElement(startX + size, 50, size, size, isFailingElement(0), delay),
       new DataCenterElement(startX + size, 180, size, size, isFailingElement(1), delay),
