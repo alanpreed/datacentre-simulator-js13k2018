@@ -74,7 +74,7 @@ export class InsideElement {
     this.pointer.update();
 
     if(this.failed) {
-      return 'dataCenter';
+      return 'failed';
     }
     else {
       return 'insideElement';

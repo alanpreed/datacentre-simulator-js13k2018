@@ -2,9 +2,11 @@ import { Packet } from '../packet';
 import { Connection } from '../connection';
 
 export class Menu {
-  constructor() {
+  constructor(startScreen) {
+    this.currentScreen = startScreen;
     this.isIntroScreen = false;
     this.isInitialScreen = true;
+    this.newGameState = 'menu';
 
     kontra.pointer.onDown(() => {
       if(kontra.pointer.over({
@@ -13,54 +15,64 @@ export class Menu {
         height: 20,
         width: 200
       })); {
-        if(this.isIntroScreen) {
-          this.shouldChangeGameState = true;
-        } else if(this.isInitialScreen) {
-          this.isInitialScreen = false;
-          this.isIntroScreen = true;
+      switch(this.currentScreen) {
+          case 'info':
+            this.newGameState = 'dataCenter';
+            break;
+          case 'failed':
+            this.currentScreen = 'main';
+            break;
+          default:
+            // Main menu is default
+            this.currentScreen = 'info';
         }
       }
-
     });
   }
 
   update() {
-
-
-    return this.shouldChangeGameState ? 'dataCenter' : 'menu';
+    return this.newGameState;
   }
 
   render() {
     // Render title
     // Render menu Items
     const context = kontra.context;
-    context.font = '14px Helvetica';
     context.fillStyle = 'white';
     context.textAlign ='center';
 
-    if(this.isInitialScreen) {
-      // Render tile
-      context.fillText('INSERT LOGO HERE', kontra.canvas.width/2, 20);
-      context.font = '40px Helvetica';
-      context.fillText('Play', kontra.canvas.width/2, kontra.canvas.height - 50);
+    switch(this.currentScreen) {
+      case 'info':
+        //  render help text
+        //  render sprites;
+        context.font = '14px Helvetica';
+        context.fillText('You work in one of Peruvian Web Services datacentres', kontra.canvas.width/2, 20);
+        context.fillText('the equipment is old, faulty and regularly needs interventions.', kontra.canvas.width/2, 40);
+        context.fillText('When a region goes down your job is to make sure packets:', kontra.canvas.width/2, 70);
+        const packet = new Packet(kontra.canvas.width/2, 85, 'red', 0, 10);
+        kontra.sprite(packet).render();
+        context.fillStyle = 'white';
+        context.fillText('are delivered to connections: ', kontra.canvas.width/2, 110);
+        const connection = new Connection(kontra.canvas.width/2 - 10, 125, 20,20, 100);
+        kontra.sprite(connection).render();
+        context.font = '30px Helvetica';
+        context.fillStyle = 'white';
+        context.fillText('Start Game', kontra.canvas.width/2, kontra.canvas.height - 50);
+        break;
+      case 'failed':
+        context.font = '14px Helvetica';
+        context.fillText('You failed! Peruvian Web Services is in ruins.', kontra.canvas.width/2, 20);
 
-    } else if( this.isIntroScreen) {
-      //  render help text
-      //  render sprites;
-      context.fillText('You work in one of Peruvian Web Services datacentres', kontra.canvas.width/2, 20);
-      context.fillText('the equipment is old, faulty and regularly needs interventions.', kontra.canvas.width/2, 40);
-      context.fillText('When a region goes down your job is to make sure packets:', kontra.canvas.width/2, 70);
-      const packet = new Packet(kontra.canvas.width/2, 85, 'red', 0, 10);
-      kontra.sprite(packet).render();
-      context.fillStyle = 'white';
-      context.fillText('are delivered to connections: ', kontra.canvas.width/2, 110);
-      const connection = new Connection(kontra.canvas.width/2 - 10, 125, 20,20, 100);
-      kontra.sprite(connection).render();
-
-      context.font = '30px Helvetica';
-      context.fillStyle = 'white';
-      context.fillText('Start Game', kontra.canvas.width/2, kontra.canvas.height - 50);
-
+        context.font = '30px Helvetica';
+        context.fillStyle = 'white';
+        context.fillText('Main Menu', kontra.canvas.width/2, kontra.canvas.height - 50);
+        break;
+      default:
+        // Render tile
+        context.font = '14px Helvetica';
+        context.fillText('INSERT LOGO HERE', kontra.canvas.width/2, 20);
+        context.font = '40px Helvetica';
+        context.fillText('Play', kontra.canvas.width/2, kontra.canvas.height - 50);
     }
   }
 }
