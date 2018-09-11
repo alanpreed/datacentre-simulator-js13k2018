@@ -53,7 +53,7 @@ export class Connection {
       }
     }
     else {
-      if(i < 2) {
+      if(i < 1) {
         this.timeSpentOK++;
         if(this.timeSpentOK > this.successWaitTime) {
           this.succeeded = true;

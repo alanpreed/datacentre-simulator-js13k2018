@@ -105,16 +105,19 @@ export class InsideElement {
     this.connections = [];
     this.blocks = [];
 
-    let numProblems = 2 * level;
+    let numProblems = 2 * Math.round(level / 2);
 
     for(var i = 0; i < numProblems; i++) {
-      this.packetSpawners.push(new packetSpawner(0.1, kontra.canvas.width, kontra.canvas.height));
+      const spawnerSpeed = 1 + (level / 4);
+      this.packetSpawners.push(new packetSpawner(0.1, kontra.canvas.width, kontra.canvas.height, spawnerSpeed));
     }
 
     for(var i = 0; i < numProblems; i++) {
       const connectionWidth = 20;
       const connectionHeight = 20;
-      this.connections.push(new Connection(Math.random() * (kontra.canvas.width - connectionWidth), Math.random() * (kontra.canvas.height - connectionHeight), connectionHeight, connectionWidth, 500, 200));
+      const connectionSuccessWait = 150;
+      const connectionFailWait = 500 + (2000 / level);
+      this.connections.push(new Connection(Math.random() * (kontra.canvas.width - connectionWidth), Math.random() * (kontra.canvas.height - connectionHeight), connectionHeight, connectionWidth, connectionFailWait, connectionSuccessWait));
     }
   }
 }

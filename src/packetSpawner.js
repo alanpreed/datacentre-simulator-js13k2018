@@ -1,8 +1,9 @@
 import { Packet } from './packet';
 
 export class packetSpawner {
-  constructor(rate, canvasWidth, canvasHeight) {
+  constructor(rate, canvasWidth, canvasHeight, speed) {
     this.rate = rate;
+    this.speed = speed;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
     this.packetWidth = 4;
@@ -48,6 +49,6 @@ export class packetSpawner {
   }
 
   generatePacket() {
-    return new Packet(this.x, this.y, 2*(Math.random() + 1), this.rotation, this.packetWidth, this.canvasWidth, this.canvasHeight);
+    return new Packet(this.x, this.y, this.speed * (Math.random() + 1), this.rotation, this.packetWidth, this.canvasWidth, this.canvasHeight);
   }
 }
