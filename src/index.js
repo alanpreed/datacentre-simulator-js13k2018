@@ -17,14 +17,12 @@ const gameState = {
 let level = 1;
 let time = 0;
 
-
-
 const loop = kontra.gameLoop({
   update() {
 
     if(gameState[currentGameState] === null) {
       if(currentGameState === 'insideElement') {
-        gameState[currentGameState] = new InsideElement(1);
+        gameState[currentGameState] = new InsideElement(level);
       } else if (currentGameState === 'dataCenter') {
         gameState[currentGameState] =  new DataCenter(level);
       } else if (currentGameState === 'menu') {
@@ -36,7 +34,7 @@ const loop = kontra.gameLoop({
     }
 
     const newGameState = gameState[currentGameState].update();
-    
+
     if(newGameState !== currentGameState) {
       gameState[currentGameState] = null;
       currentGameState = newGameState;

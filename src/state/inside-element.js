@@ -97,7 +97,7 @@ export class InsideElement {
     this.connections = [];
     this.blocks = [];
 
-    let numProblems = 5;
+    let numProblems = 2 * level;
 
     for(var i = 0; i < numProblems; i++) {
       this.packetSpawners.push(new packetSpawner(0.1, kontra.canvas.width, kontra.canvas.height));
@@ -106,7 +106,7 @@ export class InsideElement {
     for(var i = 0; i < numProblems; i++) {
       const connectionWidth = 20;
       const connectionHeight = 20;
-      this.connections.push(new Connection(Math.random() * (kontra.canvas.width - connectionWidth), Math.random() * (kontra.canvas.height - connectionHeight), connectionHeight, connectionWidth, 100));
+      this.connections.push(new Connection(Math.random() * (kontra.canvas.width - connectionWidth), Math.random() * (kontra.canvas.height - connectionHeight), connectionHeight, connectionWidth, 500));
     }
   }
 }
