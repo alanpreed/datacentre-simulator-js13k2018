@@ -5,8 +5,12 @@ export class Menu {
 
   update() {
 
+
+    return 'menu';
   }
 
   render() {
+    // Render title
+    // Render menu Items
   }
 }
