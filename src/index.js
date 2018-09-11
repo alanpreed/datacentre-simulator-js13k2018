@@ -14,7 +14,7 @@ const gameState = {
   dataCenter: null,
   failed: null,
 };
-let level = 1;
+let level = 0;
 let time = 0;
 
 const loop = kontra.gameLoop({
@@ -29,7 +29,7 @@ const loop = kontra.gameLoop({
         gameState[currentGameState] = new Menu();
       } else if (currentGameState === 'failed') {
         currentGameState = 'menu';
-        level = 1;
+        level = 0;
         gameState[currentGameState] = new Menu('failed');
       }
     }
