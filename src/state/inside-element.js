@@ -7,6 +7,7 @@ export class InsideElement {
   constructor(level) {
     this.setupLevel(level);
 
+    this.failed = false;
     this.pointer = kontra.sprite(new Block(kontra.pointer.x, kontra.pointer.y, 50, 5, 0));
     this.pointer.rotationStep = Math.PI / 8;
     this.pointer.color = 'blue';
@@ -57,8 +58,8 @@ export class InsideElement {
       connection.update();
       connection.checkCollisions(this.packets);
 
-      if (connection.isLost || connection.isSuccesful) {
-        this.connections.splice(index, 1);
+      if (connection.failed) {
+        this.failed = true;
       }
     });
 
@@ -72,7 +73,12 @@ export class InsideElement {
 
     this.pointer.update();
 
-    return 'insideElement';
+    if(this.failed) {
+      return 'dataCenter';
+    }
+    else {
+      return 'insideElement';
+    }
   }
 
   render() {
