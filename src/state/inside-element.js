@@ -17,6 +17,9 @@ export class InsideElement {
     };
 
     kontra.pointer.onDown(() => {
+      if(this.blocks.length >= this.blocksLimit) {
+        this.blocks.shift();
+      }
       this.blocks.push(new Block(this.pointer.x,
         this.pointer.y,
         this.pointer.width,
@@ -93,8 +96,13 @@ export class InsideElement {
     let objectGroups = [this.packets, this.connections, this.blocks, this.effects];
     objectGroups.forEach(group => group.forEach(object => kontra.sprite(object).render()));
     this.pointer.render();
+    const context = kontra.context;
+    this.connections.forEach(connection => context.fillText(connection.timeSinceLastPacket, connection.x, connection.y));
 
-    this.connections.forEach(connection => kontra.context.fillText(connection.timeSinceLastPacket, connection.x, connection.y));
+    context.fillStyle = '#E5DADA';
+    context.font = '14px Helvetica';
+    context.fillText(`Patch cables available: ${this.blocksLimit - this.blocks.length}`, 100, 20);
+
   }
 
   setupLevel(level) {
@@ -104,6 +112,7 @@ export class InsideElement {
     this.effects = [];
     this.connections = [];
     this.blocks = [];
+    this.blocksLimit = Math.max(4, 10 - level);
 
     let numProblems = 2 + Math.round(level / 2);
 
