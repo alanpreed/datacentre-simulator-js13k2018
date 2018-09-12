@@ -44,7 +44,7 @@ export class InsideElement {
       if(packetSpawner.checkSpawnPacket()) {
         this.packets.push(packetSpawner.generatePacket());
       }
-    })
+    });
 
     this.packets.forEach((packet, index) => {
       packet.update();
@@ -59,7 +59,7 @@ export class InsideElement {
 
     let succeededConnections = 0;
 
-    this.connections.forEach((connection, index) => {
+    this.connections.forEach((connection) => {
       connection.update();
       connection.checkCollisions(this.packets);
 
@@ -113,6 +113,12 @@ export class InsideElement {
     this.connections = [];
     this.blocks = [];
     this.blocksLimit = Math.max(4, 10 - level);
+    this.timeToSuccess = level * 500;
+
+    setTimeout(() => {
+      
+
+    }, this.timeToSuccess);
 
     let numProblems = 2 + Math.round(level / 2);
 

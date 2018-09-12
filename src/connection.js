@@ -46,7 +46,7 @@ export class Connection {
     if(i === this.gradient.length - 1) {
       const flashPeriod = 30;
       if((this.timeSinceLastPacket - this.packetWaitTime) % flashPeriod < flashPeriod / 2){
-        this.color = 'black'
+        this.color = 'black';
       }
       else{
         this.color = this.gradient[i];
