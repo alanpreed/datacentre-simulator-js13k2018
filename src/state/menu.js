@@ -1,6 +1,7 @@
 import { Packet } from '../packet';
 import { Connection } from '../connection';
 import { Block } from '../block';
+import { packetSpawner } from '../packetSpawner';
 
 export class Menu {
   constructor(startScreen, startTime, endTime) {
@@ -11,6 +12,18 @@ export class Menu {
     this.canRenderLogoSprite = false;
     this.startTime = startTime;
     this.endTime = endTime;
+
+    this.blocks = [new Block(kontra.canvas.width/2, kontra.canvas.height/2, 50, 5,Math.PI/2)];
+    this.packets = [];
+    this.packetSpawners = [
+      new packetSpawner(0.05, kontra.canvas.width, kontra.canvas.height, 2),
+      new packetSpawner(0.05, kontra.canvas.width, kontra.canvas.height, 2),];
+    this.packetSpawners[0].x = -this.packetSpawners[0].packetWidth;
+    this.packetSpawners[1].x = this.packetSpawners[1].canvasWidth + this.packetSpawners[1].packetWidth;
+    this.packetSpawners[0].y = this.packetSpawners[0].canvasHeight / 3.5;
+    this.packetSpawners[1].y = this.packetSpawners[1].canvasHeight / 3.5;
+    this.packetSpawners[0].rotation = Math.PI / 8;
+    this.packetSpawners[1].rotation = 7 * Math.PI/8;
 
     kontra.pointer.onDown(() => {
       if(kontra.pointer.over({
@@ -48,6 +61,21 @@ export class Menu {
   }
 
   update() {
+    if(this.currentScreen === 'main') {
+      this.packetSpawners.forEach(packetSpawner => {
+        if(packetSpawner.checkSpawnPacket()) {
+          this.packets.push(packetSpawner.generatePacket());
+        }
+      });
+  
+      this.packets.forEach((packet, index) => {
+        packet.update();
+        packet.checkBlockCollisions(this.blocks);
+        if (packet.lost) {
+          this.packets.splice(index, 1);
+        }
+      });
+    }
     return this.newGameState;
   }
 
@@ -80,7 +108,6 @@ export class Menu {
       context.fillText('Use your mouse to rotate and place patch cables,', kontra.canvas.width/2, 350);
       context.fillText('to direct packets into connections before they time out.', kontra.canvas.width/2, 370);
 
-
       context.font = '30px Helvetica';
       context.fillStyle = '#E5DADA';
       context.fillText('Start Game', kontra.canvas.width/2, kontra.canvas.height - 50);
@@ -93,12 +120,13 @@ export class Menu {
       context.fillStyle = '#E5DADA';
       context.fillText('Main Menu', kontra.canvas.width/2, kontra.canvas.height - 50);
     } else {
+      this.blocks.forEach(block => kontra.sprite(block).render());
+      this.packets.forEach(packet => kontra.sprite(packet).render());
       if(this.canRenderLogoSprite) {
         this.logoSprite.render();
       }
       context.font = '40px Helvetica';
       context.fillText('Play', kontra.canvas.width/2, kontra.canvas.height - 50);
-
     }
   }
 }

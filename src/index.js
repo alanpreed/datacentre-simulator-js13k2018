@@ -29,7 +29,7 @@ const loop = kontra.gameLoop({
       } else if (currentGameState === 'dataCenter') {
         gameState[currentGameState] =  new DataCenter(level);
       } else if (currentGameState === 'menu') {
-        gameState[currentGameState] = new Menu();
+        gameState[currentGameState] = new Menu('main');
       } else if (currentGameState === 'failed') {
         currentGameState = 'menu';
         level = 0;
