@@ -62,8 +62,8 @@ export class Menu {
       //  render help text
       //  render sprites;
       context.font = '14px Helvetica';
-      context.fillText('You work in one of Peruvian Web Services datacentres', kontra.canvas.width/2, 20);
-      context.fillText('the equipment is old, faulty and regularly needs interventions.', kontra.canvas.width/2, 40);
+      context.fillText('You work in one of Peruvian Web Services\' datacentres.', kontra.canvas.width/2, 20);
+      context.fillText('The equipment is old, faulty and regularly needs manual intervention.', kontra.canvas.width/2, 40);
       context.fillText('When a region goes down your job is to make sure packets:', kontra.canvas.width/2, 70);
       const packet = new Packet(kontra.canvas.width/2, 85, 'red', 0, 10);
       kontra.sprite(packet).render();
@@ -77,8 +77,8 @@ export class Menu {
       kontra.sprite(block).render();
       context.fillText('before the datacentre goes offline.', kontra.canvas.width/2, 205);
 
-      context.fillText('Use your mouse to rotate and place patch cables', kontra.canvas.width/2, 350);
-      context.fillText('to direct packets into connections before they fail.', kontra.canvas.width/2, 370);
+      context.fillText('Use your mouse to rotate and place patch cables,', kontra.canvas.width/2, 350);
+      context.fillText('to direct packets into connections before they time out.', kontra.canvas.width/2, 370);
 
 
       context.font = '30px Helvetica';
