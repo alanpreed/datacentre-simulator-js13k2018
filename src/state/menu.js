@@ -53,7 +53,7 @@ export class Menu {
     // Render title
     // Render menu Items
     const context = kontra.context;
-    context.fillStyle = 'white';
+    context.fillStyle = '#E5DADA';
     context.textAlign ='center';
 
     if(this.currentScreen === 'info') {
@@ -65,18 +65,18 @@ export class Menu {
       context.fillText('When a region goes down your job is to make sure packets:', kontra.canvas.width/2, 70);
       const packet = new Packet(kontra.canvas.width/2, 85, 'red', 0, 10);
       kontra.sprite(packet).render();
-      context.fillStyle = 'white';
+      context.fillStyle = '#E5DADA';
       context.fillText('are delivered to connections: ', kontra.canvas.width/2, 110);
       const connection = new Connection(kontra.canvas.width/2 - 10, 125, 20,20, 100);
       kontra.sprite(connection).render();
-      context.fillStyle = 'white';
+      context.fillStyle = '#E5DADA';
       context.fillText('by placing patch cables: ', kontra.canvas.width/2, 165);
       const block = new Block(kontra.canvas.width/2, 180, 40, 5, 0, 50);
       kontra.sprite(block).render();
       context.fillText('before the datacentre goes offline.', kontra.canvas.width/2, 205);
 
       context.font = '30px Helvetica';
-      context.fillStyle = 'white';
+      context.fillStyle = '#E5DADA';
       context.fillText('Start Game', kontra.canvas.width/2, kontra.canvas.height - 50);
 
     }else if (this.currentScreen === 'failed') {
@@ -84,14 +84,12 @@ export class Menu {
       context.fillText('You failed! Peruvian Web Services is in ruins.', kontra.canvas.width/2, 20);
 
       context.font = '30px Helvetica';
-      context.fillStyle = 'white';
+      context.fillStyle = '#E5DADA';
       context.fillText('Main Menu', kontra.canvas.width/2, kontra.canvas.height - 50);
     } else {
       if(this.canRenderLogoSprite) {
         this.logoSprite.render();
       }
-      context.font = '14px Helvetica';
-      context.fillText('INSERT LOGO HERE', kontra.canvas.width/2, 20);
       context.font = '40px Helvetica';
       context.fillText('Play', kontra.canvas.width/2, kontra.canvas.height - 50);
 

@@ -2,7 +2,7 @@ export class Packet {
   constructor(x, y, speed, rotation, radius, canvasWidth, canvasHeight) {
     this.x = x;
     this.y = y;
-    this.color = 'red';
+    this.color = '#34D1BF';
     this.dx = speed * Math.cos(rotation);
     this.dy = speed * Math.sin(rotation);
     this.canvasWidth = canvasWidth;
@@ -89,7 +89,7 @@ export class Packet {
     vPerp = vPerp * -block.restitution;
 
     v = this.pythagoras(vPara, vPerp);
-    vAngle = Math.atan2(vPerp, vPara);    
+    vAngle = Math.atan2(vPerp, vPara);
     this.dx = v * Math.cos(vAngle + block.rotation);
     this.dy = v * Math.sin(vAngle + block.rotation);
   }

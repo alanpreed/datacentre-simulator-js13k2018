@@ -10,7 +10,7 @@ export class InsideElement {
     this.failed = false;
     this.pointer = kontra.sprite(new Block(kontra.pointer.x, kontra.pointer.y, 50, 5, 0));
     this.pointer.rotationStep = Math.PI / 8;
-    this.pointer.color = 'blue';
+    this.pointer.color = '#ffae19';
     this.pointer.update = function () {
       this.x = kontra.pointer.x;
       this.y = kontra.pointer.y;

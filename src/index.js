@@ -6,7 +6,7 @@ import { Menu } from './state/menu';
 
 kontra.init();
 
-const background = kontra.sprite({x: 0, y: 0, width: kontra.canvas.width, height: kontra.canvas.height, color: 'black'});
+const background = kontra.sprite({x: 0, y: 0, width: kontra.canvas.width, height: kontra.canvas.height, color: '#012A36'});
 let currentGameState = 'menu';
 const gameState = {
   menu : null,
@@ -30,7 +30,8 @@ const loop = kontra.gameLoop({
       } else if (currentGameState === 'failed') {
         currentGameState = 'menu';
         level = 0;
-        gameState[currentGameState] = new Menu('failed');
+        gameState[currentGameState] = new Menu('failed', time);
+        time=0;
       }
     }
 

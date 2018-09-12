@@ -4,7 +4,7 @@ export class Block {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.color = 'green';
+    this.color = '#E59500';
     this.rotation = rotation;
     this.restitution = 1;
     this.render = function() {

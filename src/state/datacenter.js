@@ -42,10 +42,9 @@ export class DataCenter {
     // Render status text
     const context = kontra.context;
     context.font = '20px Helvetica';
-    context.fillStyle = 'white';
+    context.fillStyle = '#E5DADA';
     context.textAlign ='center';
     context.fillText('System status:', kontra.canvas.width/2 - 50, 20);
-    context.fillText('Level:' + this.level, kontra.canvas.width/2 - 50, 40);
     if(this.failedElement) {
       context.fillStyle='red';
       context.fillText('ERROR', kontra.canvas.width/2 + 80, 20);
