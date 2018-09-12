@@ -32,15 +32,11 @@ export class Menu {
         height: 20,
         width: 200
       })); {
-        switch(this.currentScreen) {
-        case 'info':
+        if(this.currentScreen === 'info'){
           this.newGameState = 'dataCenter';
-          break;
-        case 'failed':
+        } else if (this.currentScreen === 'failed'){
           this.currentScreen = 'main';
-          break;
-        default:
-          // Main menu is default
+        } else  {
           this.currentScreen = 'info';
         }
       }
@@ -104,7 +100,6 @@ export class Menu {
       const block = new Block(kontra.canvas.width/2, 180, 40, 5, 0, 50);
       kontra.sprite(block).render();
       context.fillText('before the datacentre goes offline.', kontra.canvas.width/2, 205);
-
       context.fillText('Use your mouse to rotate and place patch cables,', kontra.canvas.width/2, 350);
       context.fillText('to direct packets into connections before they time out.', kontra.canvas.width/2, 370);
 
