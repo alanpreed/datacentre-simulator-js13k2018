@@ -10,7 +10,8 @@ export class Effect {
     this.render = function () {
       let gradient = this.context.createRadialGradient(this.x, this.y, this.radius/2, this.x, this.y, this.radius);
       gradient.addColorStop(0, 'transparent');
-      gradient.addColorStop(1, 'red');
+      gradient.addColorStop(0.2, '#A9BCD0');
+      gradient.addColorStop(1, '#D8DBE2');
 
       this.context.fillStyle = gradient;
       this.context.beginPath();

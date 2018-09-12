@@ -3,12 +3,14 @@ import { Connection } from '../connection';
 import { Block } from '../block';
 
 export class Menu {
-  constructor(startScreen) {
+  constructor(startScreen, startTime, endTime) {
     this.currentScreen = startScreen;
     this.isIntroScreen = false;
     this.isInitialScreen = true;
     this.newGameState = 'menu';
     this.canRenderLogoSprite = false;
+    this.startTime = startTime;
+    this.endTime = endTime;
 
     kontra.pointer.onDown(() => {
       if(kontra.pointer.over({
@@ -82,7 +84,7 @@ export class Menu {
     }else if (this.currentScreen === 'failed') {
       context.font = '14px Helvetica';
       context.fillText('You failed! Peruvian Web Services is in ruins.', kontra.canvas.width/2, 20);
-
+      context.fillText(`Time before offline: ${(this.endDate.getTime() - this.startDate.getTime()) / 1000}s`, kontra.canvas.width/2, 40);
       context.font = '30px Helvetica';
       context.fillStyle = '#E5DADA';
       context.fillText('Main Menu', kontra.canvas.width/2, kontra.canvas.height - 50);
