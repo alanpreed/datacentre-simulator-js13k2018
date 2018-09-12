@@ -18,7 +18,7 @@ export class DataCenter {
       new DataCenterElement(startX + (2 * spacing), startY, size, size, isFailingElement(2), delay, 'AS'),
       new DataCenterElement(startX + (0 * spacing), startY + spacing, size, size, isFailingElement(3), delay, 'SA'),
       new DataCenterElement(startX + (1 * spacing), startY + spacing, 50, 50, isFailingElement(4), delay, 'AF'),
-      new DataCenterElement(startX + (2 * spacing), startY + spacing, size, size, isFailingElement(4), delay, 'OC')];
+      new DataCenterElement(startX + (2 * spacing), startY + spacing, size, size, isFailingElement(5), delay, 'OC')];
 
     kontra.pointer.onDown(() => {
       if(this.failedElement) {
