@@ -69,13 +69,17 @@ export class Menu {
       kontra.sprite(packet).render();
       context.fillStyle = '#E5DADA';
       context.fillText('are delivered to connections: ', kontra.canvas.width/2, 110);
-      const connection = new Connection(kontra.canvas.width/2 - 10, 125, 20,20, 100);
+      const connection = new Connection(kontra.canvas.width/2 - 10, 120, 20,20, 100);
       kontra.sprite(connection).render();
       context.fillStyle = '#E5DADA';
       context.fillText('by placing patch cables: ', kontra.canvas.width/2, 165);
       const block = new Block(kontra.canvas.width/2, 180, 40, 5, 0, 50);
       kontra.sprite(block).render();
       context.fillText('before the datacentre goes offline.', kontra.canvas.width/2, 205);
+
+      context.fillText('Use your mouse to rotate and place patch cables', kontra.canvas.width/2, 350);
+      context.fillText('to direct packets into connections before they fail.', kontra.canvas.width/2, 370);
+
 
       context.font = '30px Helvetica';
       context.fillStyle = '#E5DADA';
