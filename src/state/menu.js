@@ -36,9 +36,9 @@ export class Menu {
     let logoImage = new Image();
     logoImage.src = 'assets/images/logo.png';
     this.logoSprite = kontra.sprite({
-      x: -1,
+      x: kontra.canvas.width/4,
       y: 20,
-      width: 100,
+      width: 200,
       image: logoImage
     });
 
