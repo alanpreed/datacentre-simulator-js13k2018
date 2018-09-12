@@ -4,18 +4,21 @@ export class DataCenter {
   constructor(level) {
     this.level = level;
     const startX = (kontra.canvas.width - 350) /2;
+    const startY = 150;
     const size = 50;
+    const spacing = 3 * size;
     this.shouldChangeGameState = false;
 
-    const failingElement = Math.round(Math.random() * 4);
+    const failingElement = Math.round(Math.random() * 5);
     const isFailingElement = (number) => { return failingElement === number;};
     const delay = Math.max(60, 200 - (level*10));
     this.dataCenterElements = [
-      new DataCenterElement(startX + size, 50, size, size, isFailingElement(0), delay),
-      new DataCenterElement(startX + size, 180, size, size, isFailingElement(1), delay),
-      new DataCenterElement(startX + 100 + size, size, size, size, isFailingElement(2), delay),
-      new DataCenterElement(startX + 200 + size, 50, size, size, isFailingElement(3), delay),
-      new DataCenterElement(startX + 200 + size, 180, 50, 50, isFailingElement(4), delay)];
+      new DataCenterElement(startX + (0 * spacing), startY, size, size, isFailingElement(0), delay, 'NA'),
+      new DataCenterElement(startX + (1 * spacing), startY, size, size, isFailingElement(1), delay, 'EU'),
+      new DataCenterElement(startX + (2 * spacing), startY, size, size, isFailingElement(2), delay, 'AS'),
+      new DataCenterElement(startX + (0 * spacing), startY + spacing, size, size, isFailingElement(3), delay, 'SA'),
+      new DataCenterElement(startX + (1 * spacing), startY + spacing, 50, 50, isFailingElement(4), delay, 'AF'),
+      new DataCenterElement(startX + (2 * spacing), startY + spacing, size, size, isFailingElement(4), delay, 'OC')];
 
     kontra.pointer.onDown(() => {
       if(this.failedElement) {
@@ -44,15 +47,15 @@ export class DataCenter {
     context.font = '20px Helvetica';
     context.fillStyle = '#E5DADA';
     context.textAlign ='center';
-    context.fillText('System status:', kontra.canvas.width/2 - 50, 20);
+    context.fillText('Peruvian Web Services System Overview', kontra.canvas.width/2 , 40);
+    context.fillText('System status:', kontra.canvas.width/2 - 35, 70);
     if(this.failedElement) {
       context.fillStyle='red';
-      context.fillText('ERROR', kontra.canvas.width/2 + 80, 20);
+      context.fillText('ERROR', kontra.canvas.width/2 + 80, 70);
     } else {
       context.fillStyle='green';
-      context.fillText('OK', kontra.canvas.width/2 + 65, 20);
+      context.fillText('OK', kontra.canvas.width/2 + 65, 70);
     }
-    // kontra.context.fillText(connection.timeSinceLastPacket, connection.x, connection.y);
     this.dataCenterElements.forEach(element => kontra.sprite(element).render()); // eslint-disable-line no-undef
   }
 }
