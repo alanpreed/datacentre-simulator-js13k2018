@@ -12,10 +12,13 @@ export class Packet {
     this.stop = false;
 
     this.render = function () {
-      this.context.fillStyle = this.color;
       this.context.beginPath();
       this.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      this.context.fillStyle = this.color;
       this.context.fill();
+      this.context.lineWidth = 4;
+      this.context.strokeStyle = 'rgba(36, 158, 144, 1)';
+      this.context.stroke();
     };
   }
 
