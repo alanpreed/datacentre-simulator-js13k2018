@@ -1,9 +1,10 @@
 export class DataCenterElement {
-  constructor(x, y, width, height, shouldFail, failureDelay) {
+  constructor(x, y, width, height, shouldFail, failureDelay, name) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
+    this.name = name;
     this.isFailed = false;
     this.shouldFail = shouldFail;
     this.failureDelay = failureDelay;
@@ -25,6 +26,11 @@ export class DataCenterElement {
         this.context.fillStyle = 'rgba(251, 86, 7, 0.5)';
       }
       this.context.fillRect(this.x, this.y, this.width, this.height);
+
+      this.context.font = '20px Helvetica';
+      //this.context.fillStyle = 'white';
+      this.context.textAlign ='center';
+      this.context.fillText(this.name, this.x + (this.width/2), this.y + (this.height/2));
     };
   }
 
