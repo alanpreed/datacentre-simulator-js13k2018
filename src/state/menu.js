@@ -17,16 +17,16 @@ export class Menu {
         height: 20,
         width: 200
       })); {
-      switch(this.currentScreen) {
-          case 'info':
-            this.newGameState = 'dataCenter';
-            break;
-          case 'failed':
-            this.currentScreen = 'main';
-            break;
-          default:
-            // Main menu is default
-            this.currentScreen = 'info';
+        switch(this.currentScreen) {
+        case 'info':
+          this.newGameState = 'dataCenter';
+          break;
+        case 'failed':
+          this.currentScreen = 'main';
+          break;
+        default:
+          // Main menu is default
+          this.currentScreen = 'info';
         }
       }
     });
@@ -56,8 +56,7 @@ export class Menu {
     context.fillStyle = 'white';
     context.textAlign ='center';
 
-    switch(this.currentScreen) {
-      case 'info':
+    if(this.currentScreen === 'info') {
       //  render help text
       //  render sprites;
       context.font = '14px Helvetica';
@@ -84,24 +83,23 @@ export class Menu {
       context.font = '30px Helvetica';
       context.fillStyle = 'white';
       context.fillText('Start Game', kontra.canvas.width/2, kontra.canvas.height - 50);
-      break;
-      case 'failed':
-        context.font = '14px Helvetica';
-        context.fillText('You failed! Peruvian Web Services is in ruins.', kontra.canvas.width/2, 20);
 
-        context.font = '30px Helvetica';
-        context.fillStyle = 'white';
-        context.fillText('Main Menu', kontra.canvas.width/2, kontra.canvas.height - 50);
-        break;
-      default:
-        // Render tile
-        if(this.canRenderLogoSprite) {
-          this.logoSprite.render();
-        }
-        context.font = '14px Helvetica';
-        context.fillText('INSERT LOGO HERE', kontra.canvas.width/2, 20);
-        context.font = '40px Helvetica';
-        context.fillText('Play', kontra.canvas.width/2, kontra.canvas.height - 50);
+    }else if (this.currentScreen === 'failed') {
+      context.font = '14px Helvetica';
+      context.fillText('You failed! Peruvian Web Services is in ruins.', kontra.canvas.width/2, 20);
+
+      context.font = '30px Helvetica';
+      context.fillStyle = 'white';
+      context.fillText('Main Menu', kontra.canvas.width/2, kontra.canvas.height - 50);
+    } else {
+      if(this.canRenderLogoSprite) {
+        this.logoSprite.render();
+      }
+      context.font = '14px Helvetica';
+      context.fillText('INSERT LOGO HERE', kontra.canvas.width/2, 20);
+      context.font = '40px Helvetica';
+      context.fillText('Play', kontra.canvas.width/2, kontra.canvas.height - 50);
+
     }
   }
 }
