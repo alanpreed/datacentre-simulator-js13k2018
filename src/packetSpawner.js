@@ -11,23 +11,23 @@ export class packetSpawner {
     let side = Math.round(Math.random() * 3);
 
     switch (side) {
-      case 0:
-        this.x = -this.packetWidth;
-        this.y = this.packetWidth + (Math.random() * (this.canvasHeight - (2 * this.packetWidth)));
-        break;
-      case 1:
-        this.x = this.packetWidth + (Math.random() * (this.canvasWidth - (2 * this.packetWidth)))
-        this.y = -this.packetWidth;
-        break;
-      case 2:
-        this.x = this.canvasWidth + this.packetWidth;
-        this.y = this.packetWidth + (Math.random() * (this.canvasHeight - (2 * this.packetWidth)));
-        break;
-      case 3:
-        this.x = this.packetWidth + (Math.random() * (this.canvasWidth - (2 * this.packetWidth)))
-        this.y = this.canvasHeight + this.packetWidth;
-        break;
-      default:
+    case 0:
+      this.x = -this.packetWidth;
+      this.y = this.packetWidth + (Math.random() * (this.canvasHeight - (2 * this.packetWidth)));
+      break;
+    case 1:
+      this.x = this.packetWidth + (Math.random() * (this.canvasWidth - (2 * this.packetWidth)));
+      this.y = -this.packetWidth;
+      break;
+    case 2:
+      this.x = this.canvasWidth + this.packetWidth;
+      this.y = this.packetWidth + (Math.random() * (this.canvasHeight - (2 * this.packetWidth)));
+      break;
+    case 3:
+      this.x = this.packetWidth + (Math.random() * (this.canvasWidth - (2 * this.packetWidth)));
+      this.y = this.canvasHeight + this.packetWidth;
+      break;
+    default:
     }
 
     // Don't let packets spawn less than 15 degrees from a side
