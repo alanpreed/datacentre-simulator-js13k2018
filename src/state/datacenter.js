@@ -2,6 +2,7 @@ import { DataCenterElement } from '../datacenter-element';
 
 export class DataCenter {
   constructor(level) {
+    this.level = level;
     const startX = (kontra.canvas.width - 350) /2;
     const size = 50;
     this.shouldChangeGameState = false;
@@ -43,12 +44,12 @@ export class DataCenter {
     context.font = '20px Helvetica';
     context.fillStyle = 'white';
     context.textAlign ='center';
+    context.fillText('System status:', kontra.canvas.width/2 - 50, 20);
+    context.fillText('Level:' + this.level, kontra.canvas.width/2 - 50, 40);
     if(this.failedElement) {
-      context.fillText('System status:', kontra.canvas.width/2 - 50, 20);
       context.fillStyle='red';
       context.fillText('ERROR', kontra.canvas.width/2 + 80, 20);
     } else {
-      context.fillText('System status:', kontra.canvas.width/2 - 50, 20);
       context.fillStyle='green';
       context.fillText('OK', kontra.canvas.width/2 + 65, 20);
     }
