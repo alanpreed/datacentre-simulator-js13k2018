@@ -97,7 +97,7 @@ export class InsideElement {
     objectGroups.forEach(group => group.forEach(object => kontra.sprite(object).render()));
     this.pointer.render();
     const context = kontra.context;
-    this.connections.forEach(connection => context.fillText(`ping: ${connection.timeSinceLastPacket}`, connection.x + 10, connection.y - 5));
+    this.connections.forEach(connection => context.fillText(`ping: ${Math.floor(connection.timeSinceLastPacket/15)}`, connection.x + 10, connection.y - 5));
 
     context.fillStyle = '#E5DADA';
     context.font = '14px Helvetica';
