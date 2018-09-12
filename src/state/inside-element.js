@@ -112,7 +112,6 @@ export class InsideElement {
     this.effects = [];
     this.connections = [];
     this.blocks = [];
-    this.blocksLimit = Math.max(4, 10 - level);
     this.timeToSuccess = level * 100000;
     this.survivedCorrectTime = false;
 
@@ -121,6 +120,7 @@ export class InsideElement {
     }, this.timeToSuccess);
 
     let numProblems = 2 + Math.round(level / 2);
+    this.blocksLimit = 2 + (2 * numProblems);
 
     for(let i = 0; i < numProblems; i++) {
       const spawnerSpeed = 1 + (level / 4);
