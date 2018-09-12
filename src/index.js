@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-require('kontra');
+require('./lib/kontra');
 import { InsideElement } from './state/inside-element';
 import { DataCenter } from './state/datacenter';
 import { Menu } from './state/menu';
