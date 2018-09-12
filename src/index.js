@@ -22,7 +22,7 @@ const loop = kontra.gameLoop({
 
     if(gameState[currentGameState] === null) {
       if(currentGameState === 'insideElement') {
-        if(level === 0) {
+        if(level === 1) {
           time = new Date();
         }
         gameState[currentGameState] = new InsideElement(level);

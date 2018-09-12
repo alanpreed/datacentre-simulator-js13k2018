@@ -88,7 +88,7 @@ export class Menu {
     }else if (this.currentScreen === 'failed') {
       context.font = '14px Helvetica';
       context.fillText('You failed! Peruvian Web Services is in ruins.', kontra.canvas.width/2, 20);
-      context.fillText(`Time before offline: ${(this.endDate.getTime() - this.startDate.getTime()) / 1000}s`, kontra.canvas.width/2, 40);
+      context.fillText(`Time before offline: ${(this.endTime.getTime() - this.startTime.getTime()) / 1000}s`, kontra.canvas.width/2, 40);
       context.font = '30px Helvetica';
       context.fillStyle = '#E5DADA';
       context.fillText('Main Menu', kontra.canvas.width/2, kontra.canvas.height - 50);

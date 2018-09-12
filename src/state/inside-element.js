@@ -84,7 +84,7 @@ export class InsideElement {
     if(this.failed) {
       return 'failed';
     }
-    else if(succeededConnections === this.connections.length) {
+    else if(succeededConnections === this.connections.length || this.survivedCorrectTime) {
       return 'dataCenter';
     }
     else {
@@ -97,7 +97,7 @@ export class InsideElement {
     objectGroups.forEach(group => group.forEach(object => kontra.sprite(object).render()));
     this.pointer.render();
     const context = kontra.context;
-    this.connections.forEach(connection => context.fillText(connection.timeSinceLastPacket, connection.x, connection.y));
+    this.connections.forEach(connection => context.fillText(`ping: ${connection.timeSinceLastPacket}`, connection.x + 20, connection.y));
 
     context.fillStyle = '#E5DADA';
     context.font = '14px Helvetica';
@@ -113,11 +113,11 @@ export class InsideElement {
     this.connections = [];
     this.blocks = [];
     this.blocksLimit = Math.max(4, 10 - level);
-    this.timeToSuccess = level * 500;
+    this.timeToSuccess = level * 100000;
+    this.survivedCorrectTime = false;
 
     setTimeout(() => {
-      
-
+      this.survivedCorrectTime = true;
     }, this.timeToSuccess);
 
     let numProblems = 2 + Math.round(level / 2);
@@ -131,7 +131,7 @@ export class InsideElement {
       const connectionWidth = 20;
       const connectionHeight = 20;
       const connectionSuccessWait = 150;
-      const connectionFailWait = 500 + (1000 / level);
+      const connectionFailWait = 500 + (500 / level);
       this.connections.push(new Connection(Math.random() * (kontra.canvas.width - connectionWidth), Math.random() * (kontra.canvas.height - connectionHeight), connectionHeight, connectionWidth, connectionFailWait, connectionSuccessWait));
     }
   }
