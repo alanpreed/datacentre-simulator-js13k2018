@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack-serve",
-    "build": "webpack"
+    "build": "webpack --config webpack.prod.config.js"
   },
   "dependencies": {
     "copy-webpack-plugin": "^4.5.2",
